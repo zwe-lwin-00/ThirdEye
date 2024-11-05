@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Number Form</title>
+  </head>
+  <body>
+    <h1
+      th:text="${number.numberid != null} ? 'Update Number' : 'Create Number'"
+    ></h1>
+    <form
+      th:action="@{${number.numberid != null} ? '/number/' + ${number.numberid} : '/number'}"
+      method="post"
+      th:object="${number}"
+    >
+      <label for="number">Number:</label>
+      <input type="number" id="number" th:field="*{number}" required />
+
+      <label for="ownamount">Want to Buy Amount:</label>
+      <input type="number" id="ownamount" th:field="*{ownamount}" required />
+
+      <!-- Dropdown for selecting a customer -->
+      <label for="customername">Select Customer:</label>
+      <select name="customerid" id="customername" required>
+        <option value="">Select a customer</option>
+        <th:block th:each="customer : ${customers}">
+          <option
+            th:value="${customer.customerid}"
+            th:text="${customer.customername}"
+          ></option>
+        </th:block>
+      </select>
+
+      <!-- Add hidden field for customer id if it's an update -->
+       <!-- 
+      <th:block th:if="${number.numberid != null}">
+        <input
+          type="hidden"
+          name="customerid"
+          th:value="${customer.customerid}"
+        />
+      </th:block>
+       -->
+
+      <button
+        type="submit"
+        th:text="${number.numberid != null} ? 'Update' : 'Create'"
+      ></button>
+    </form>
+
+    <a href="/">Home</a><br />
+    <a href="/break/new">Create New Break</a><br />
+    <a href="/break">List Existing Breaks</a><br />
+    <a href="/number/new">Buy new number</a><br />
+    <a href="/number">List Existing Numbers</a><br />
+    <a href="/customer/new">Register new customer</a><br />
+    <a href="/customer">List Existing customer</a><br />
+    <a href="/number/checkavailable">Check Available Balance</a><br />
+  </body>
+</html>

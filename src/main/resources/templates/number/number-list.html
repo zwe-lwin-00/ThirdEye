@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Number List</title>
+</head>
+<body>
+    <h1>Numbers</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Number</th>
+            <th>Own Amount</th>
+            <th>Buy Amount</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="number : ${numbers}">
+            <td th:text="${number.numberid}"></td>
+            <td th:text="${number.number}"></td>
+            <td th:text="${number.ownamount}"></td>
+            <td th:text="${number.buyamount}"></td>
+            <td>
+                <a th:href="@{/number/{id}(id=${number.numberid})}">Edit</a>
+                <a th:href="@{/number/delete/{id}(id=${number.numberid})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+    
+    
+    <a href="/">Home</a><br>
+    <a href="/break/new">Create New Break</a><br>
+    <a href="/break">List Existing Breaks</a><br>
+    <a href="/number/new">Buy new number</a><br>
+    <a href="/number">List Existing Numbers</a><br>
+    <a href="/customer/new">Register new customer</a><br>
+    <a href="/customer">List Existing customer</a><br>
+    <a href="/number/checkavailable">Check Available Balance</a><br>
+</body>
+</html>

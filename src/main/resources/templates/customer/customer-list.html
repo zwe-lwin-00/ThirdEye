@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customer List</title>
+</head>
+<body>
+    <h1>Customers</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Customer Name</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.customerid}"></td>
+            <td th:text="${customer.customername}"></td>
+            <td>
+                <a th:href="@{/customer/{id}(id=${customer.customerid})}">Edit</a>
+                <a th:href="@{/customer/delete/{id}(id=${customer.customerid})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+    
+    
+    
+    <a href="/">Home</a><br>
+    <a href="/break/new">Create New Break</a><br>
+    <a href="/break">List Existing Breaks</a><br>
+    <a href="/number/new">Buy new number</a><br>
+    <a href="/number">List Existing Numbers</a><br>
+    <a href="/customer/new">Register new customer</a><br>
+    <a href="/customer">List Existing customer</a><br>
+    <a href="/number/checkavailable">Check Available Balance</a><br>
+</body>
+</html>

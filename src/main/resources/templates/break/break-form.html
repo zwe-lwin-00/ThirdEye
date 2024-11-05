@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Break Form</title>
+</head>
+<body>
+    <h1 th:text="${break.breakid != null} ? 'Update Break' : 'Create Break'"></h1>
+    <form th:action="@{${break.breakid != null} ? '/break/' + ${break.breakid} : '/break'}"
+          method="post" th:object="${break}">
+        <label for="breakamount">Break Amount:</label>
+        <input type="number" id="breakamount" th:field="*{breakamount}" required/>
+        
+        <button type="submit" th:text="${break.breakid != null} ? 'Update' : 'Create'"></button>
+    </form>
+    
+    
+    <a href="/">Home</a><br>
+    <a href="/break/new">Create New Break</a><br>
+    <a href="/break">List Existing Breaks</a><br>
+    <a href="/number/new">Buy new number</a><br>
+    <a href="/number">List Existing Numbers</a><br>
+    <a href="/customer/new">Register new customer</a><br>
+    <a href="/customer">List Existing customer</a><br>
+    <a href="/number/checkavailable">Check Available Balance</a><br>
+</body>
+</html>

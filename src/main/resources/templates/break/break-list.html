@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Break List</title>
+</head>
+<body>
+    <h1>Breaks</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Amount</th>
+            <th>Updated Date</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="break : ${breaks}">
+            <td th:text="${break.breakid}"></td>
+            <td th:text="${break.breakamount}"></td>
+            <td th:text="${break.updateddate}"></td>
+            <td>
+                <a th:href="@{/break/{id}(id=${break.breakid})}">Edit</a>
+                <a th:href="@{/break/delete/{id}(id=${break.breakid})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+    
+    
+    <a href="/">Home</a><br>
+    <a href="/break/new">Create New Break</a><br>
+    <a href="/break">List Existing Breaks</a><br>
+    <a href="/number/new">Buy new number</a><br>
+    <a href="/number">List Existing Numbers</a><br>
+    <a href="/customer/new">Register new customer</a><br>
+    <a href="/customer">List Existing customer</a><br>
+    <a href="/number/checkavailable">Check Available Balance</a><br>
+</body>
+</html>

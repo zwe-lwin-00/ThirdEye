@@ -19,4 +19,8 @@ public class TranacationService {
         return tranacationrepository.findAll();
     }
 
+    public Tranacation createTranacation(Tranacation tranacationEntity) {
+        return tranacationrepository.save(tranacationEntity);
+    }
+
 }

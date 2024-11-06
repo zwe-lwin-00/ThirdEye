@@ -1,5 +1,6 @@
 package com.thirdeye.code.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.thirdeye.code.entity.Tranacation;
 import com.thirdeye.code.service.BreakService;
 import com.thirdeye.code.service.CustomerService;
 import com.thirdeye.code.service.NumberService;
+import com.thirdeye.code.service.TranacationService;
 
 @Controller
 @RequestMapping("/number")
@@ -28,6 +30,9 @@ public class NumberController {
 
     @Autowired
     private CustomerService customerservice;
+
+    @Autowired
+    private TranacationService tranacationservice;
 
     @Autowired
     private BreakService breakservice;
@@ -89,17 +94,25 @@ public class NumberController {
 
     @PostMapping
     public String buynewnumber(@ModelAttribute Number numberEntity, @RequestParam Long customerid) {
+        Tranacation Tranacation = new Tranacation();
         int wantToBuyAmount = numberEntity.getOwnamount();
         Number existingNumber = numberservice.findByNumber(numberEntity.getNumber());
-
-        // enter into transcation
-        Tranacation Tranacation = new Tranacation();
+        Customer existingCustomer = customerservice.findById(customerid);
 
         if (existingNumber != null) {
             handleExistingNumber(numberEntity, existingNumber, wantToBuyAmount);
+            Tranacation.setNumber(existingNumber);
         } else {
             handleNewNumber(numberEntity, wantToBuyAmount);
+            Number newNumber = numberservice.findByNumber(numberEntity.getNumber());
+            Tranacation.setNumber(newNumber);
         }
+        // enter into transcation
+        Tranacation.setCustomer(existingCustomer);
+        Tranacation.setTranscationdate(LocalDateTime.now());
+        Tranacation.setAmount(wantToBuyAmount);
+        Tranacation.setBuynumber(numberEntity.getNumber());
+        tranacationservice.createTranacation(Tranacation);
 
         return "redirect:/number";
     }

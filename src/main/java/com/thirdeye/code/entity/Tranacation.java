@@ -22,4 +22,7 @@ public class Tranacation {
 
     @ManyToOne
     private Customer customer; // Reference to Customer entity
+
+    private int amount;
+    private int buynumber;
 }

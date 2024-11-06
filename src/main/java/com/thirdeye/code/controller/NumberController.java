@@ -21,6 +21,8 @@ import com.thirdeye.code.service.CustomerService;
 import com.thirdeye.code.service.NumberService;
 import com.thirdeye.code.service.TranacationService;
 
+import jakarta.transaction.Transaction;
+
 @Controller
 @RequestMapping("/number")
 public class NumberController {
@@ -42,6 +44,25 @@ public class NumberController {
         model.addAttribute("Number", new Number());
         return "number/checkavailable-form";
     }
+
+
+    @GetMapping("/checklucky")
+    public String checkLuckyform(Model model) {
+        model.addAttribute("Number", new Number());
+        return "number/checklucky-form";
+    }
+
+
+
+    @PostMapping("/checklucky")
+    public String checkLuckyPost(@ModelAttribute("Number") Number number, Model model) {
+        int luckyNumber = number.getNumber();
+        Transaction transactions=tranacationservice.findtransbynumber(luckyNumber);
+        
+        
+        return "/";
+    }
+
 
     @PostMapping("/checkavailable")
     public String checkAvailablePost(@ModelAttribute("Number") Number number, Model model) {

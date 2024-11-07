@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lucky Number Transactions</title>
+</head>
+<body>
+
+    <h1>Transactions for Lucky Number</h1>
+
+    <!-- If there are transactions, show them in a table -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Number</th>
+                <th>Amount</th>
+                <th>Customer</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tranacation : ${transactions}">
+                <td th:text="${tranacation.tranacationid}"></td>
+                <td th:text="${tranacation.buynumber}"></td>
+                <td th:text="${tranacation.amount}"></td>
+                <td th:text="${tranacation.customer.customername}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Total Amount</td>
+                <td>999999999</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- If no transactions, show a message -->
+    <p th:if="${#lists.isEmpty(transactions)}">No transactions found for this lucky number.</p>
+
+    <a href="/">Home</a><br>
+    <a href="/break/new">Create New Break</a><br>
+    <a href="/break">List Existing Breaks</a><br>
+    <a href="/number/new">Buy new number</a><br>
+    <a href="/number">List Existing Numbers</a><br>
+    <a href="/customer/new">Register new customer</a><br>
+    <a href="/customer">List Existing customer</a><br>
+    <a href="/number/checkavailable">Check Available Balance</a><br>
+
+</body>
+</html>

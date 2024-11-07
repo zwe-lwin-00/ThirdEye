@@ -21,8 +21,6 @@ import com.thirdeye.code.service.CustomerService;
 import com.thirdeye.code.service.NumberService;
 import com.thirdeye.code.service.TranacationService;
 
-import jakarta.transaction.Transaction;
-
 @Controller
 @RequestMapping("/number")
 public class NumberController {
@@ -57,10 +55,9 @@ public class NumberController {
     @PostMapping("/checklucky")
     public String checkLuckyPost(@ModelAttribute("Number") Number number, Model model) {
         int luckyNumber = number.getNumber();
-        Transaction transactions=tranacationservice.findtransbynumber(luckyNumber);
-        
-        
-        return "/";
+        List<Tranacation> transactions = tranacationservice.findtransbynumber(luckyNumber);
+        model.addAttribute("transactions", transactions);
+        return "number/checklucky-list";
     }
 
 

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.thirdeye.code.entity.Tranacation;
 import com.thirdeye.code.repository.TranacationRepository;
 
-import jakarta.transaction.Transaction;
-
 @Service
 public class TranacationService {
 
@@ -25,8 +23,9 @@ public class TranacationService {
         return tranacationrepository.save(tranacationEntity);
     }
 
-    public Transaction findtransbynumber(int luckyNumber) {
-        return tranacationrepository.findtransbynumber(luckyNumber);
+
+    public List<Tranacation> findtransbynumber(int luckyNumber) {
+        return tranacationrepository.findtransbynumber(luckyNumber); 
     }
 
     

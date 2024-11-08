@@ -64,4 +64,8 @@ public class NumberService {
         }
     }
 
+    public void restartdb() {
+        numberrepository.restartdb();
+    }
+
 }

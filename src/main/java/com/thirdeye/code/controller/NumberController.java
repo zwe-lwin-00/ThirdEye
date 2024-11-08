@@ -44,6 +44,13 @@ public class NumberController {
     }
 
 
+    @GetMapping("/restartdb")
+    public String restartdb() {
+        numberservice.restartdb();
+        return "redirect:/";
+    }
+
+
     @GetMapping("/checklucky")
     public String checkLuckyform(Model model) {
         model.addAttribute("Number", new Number());

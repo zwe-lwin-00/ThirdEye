@@ -43,21 +43,17 @@ public class NumberController {
         return "number/checkavailable-form";
     }
 
-
     @GetMapping("/restartdb")
     public String restartdb() {
         numberservice.restartdb();
         return "redirect:/";
     }
 
-
     @GetMapping("/checklucky")
     public String checkLuckyform(Model model) {
         model.addAttribute("Number", new Number());
         return "number/checklucky-form";
     }
-
-
 
     @PostMapping("/checklucky")
     public String checkLuckyPost(@ModelAttribute("Number") Number number, Model model) {
@@ -66,7 +62,6 @@ public class NumberController {
         model.addAttribute("transactions", transactions);
         return "number/checklucky-list";
     }
-
 
     @PostMapping("/checkavailable")
     public String checkAvailablePost(@ModelAttribute("Number") Number number, Model model) {

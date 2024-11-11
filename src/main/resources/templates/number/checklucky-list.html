@@ -5,7 +5,7 @@
 </head>
 <body>
 
-    <h1>Transactions for Lucky Number</h1>
+    <h1>All Transactions Table</h1>
 
     <!-- If there are transactions, show them in a table -->
     <table border="1">
@@ -13,25 +13,73 @@
             <tr>
                 <th>ID</th>
                 <th>Number</th>
-                <th>Amount</th>
                 <th>Customer</th>
+                <th>Amount</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="tranacation : ${transactions}">
                 <td th:text="${tranacation.tranacationid}"></td>
                 <td th:text="${tranacation.buynumber}"></td>
-                <td th:text="${tranacation.amount}"></td>
                 <td th:text="${tranacation.customer.customername}"></td>
+                <td th:text="${tranacation.amount}"></td>
             </tr>
             <tr>
                 <td></td>
-                <td>Total Amount</td>
-                <td>999999999</td>
                 <td></td>
+                <td>Total Amount</td>
+                <td th:text="${totalAmount}"></td>
             </tr>
         </tbody>
     </table>
+    <br> <br> <br>
+    <h1>All Transactions Group By Customer Table</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Customer Name</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="summary : ${transactionSummaries}">
+                <td th:text="${summary.buynumber}"></td>
+                <td th:text="${summary.customer.customername}"></td>
+                <td th:text="${summary.totalAmount}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Total</td>
+                <td th:text="${totalAmount}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br> <br> <br>
+    <h1>Buy Amount and Own Amount</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Buy Amount</th>
+                <th>Own Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="number : ${numbers}">
+                <td th:text="${number.number}"></td>
+                <td th:text="${number.buyamount}"></td>
+                <td th:text="${number.ownamount}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+    
 
     <!-- If no transactions, show a message -->
     <p th:if="${#lists.isEmpty(transactions)}">No transactions found for this lucky number.</p>

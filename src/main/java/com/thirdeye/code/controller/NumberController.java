@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.thirdeye.code.dto.transcationdto;
 import com.thirdeye.code.entity.Customer;
 import com.thirdeye.code.entity.Number;
 import com.thirdeye.code.entity.Tranacation;
@@ -59,6 +60,14 @@ public class NumberController {
     public String checkLuckyPost(@ModelAttribute("Number") Number number, Model model) {
         int luckyNumber = number.getNumber();
         List<Tranacation> transactions = tranacationservice.findtransbynumber(luckyNumber);
+        //pulling data as group by customer
+        List<Object[]> transactionsgroupbycus = tranacationservice.findtransactionsgroupbycus(luckyNumber);
+
+
+        List<transcationdto> transactionsgroupbycus5 = tranacationservice.findtransactionsgroupbycus5(luckyNumber);
+
+
+
         model.addAttribute("transactions", transactions);
         return "number/checklucky-list";
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thirdeye.code.dto.transcationdto;
 import com.thirdeye.code.entity.Tranacation;
 import com.thirdeye.code.repository.TranacationRepository;
 
@@ -27,6 +28,17 @@ public class TranacationService {
     public List<Tranacation> findtransbynumber(int luckyNumber) {
         return tranacationrepository.findtransbynumber(luckyNumber); 
     }
+
+
+    public List<Object[]> findtransactionsgroupbycus(int luckyNumber) {
+        return tranacationrepository.findtransactionsgroupbycus(luckyNumber); 
+    }
+
+
+    public List<transcationdto> findtransactionsgroupbycus5(int luckyNumber) {
+        return tranacationrepository.findtransactionsgroupbycus5(luckyNumber); 
+    }
+    
 
     
 

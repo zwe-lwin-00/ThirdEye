@@ -21,10 +21,10 @@
     <tbody>
       <tr>
         <td><input type="number" id="numberInput" placeholder="Enter a number" /></td>
-        <td>600</td>
-        <td>300</td>
-        <td>200</td>
-        <td>100</td>
+        <td></td>
+        <td><input type="number" class="amtInput" value="" placeholder="Enter Amt" /></td>
+        <td></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -45,6 +45,14 @@
       permute("", str);
       return [...new Set(result)]; // Remove duplicates
     }
+
+    // Place the cursor at the first 'No' input when the page is loaded
+    window.addEventListener('load', function() {
+      const firstInput = document.getElementById('numberInput');
+      if (firstInput) {
+        firstInput.focus();
+      }
+    });
 
     // Handle the Enter key press to trigger the permutations
     document.getElementById('numberInput').addEventListener('keydown', function(event) {
@@ -68,29 +76,55 @@
         // Clear the table (except for the header)
         tbody.innerHTML = '';
 
+        // Set the initial value for 'Remain' (this can be dynamically fetched from the backend later)
+        const remainValue = 6000;
+
         // Add each permutation to the table
         permutations.forEach(perm => {
           const row = document.createElement('tr');
 
-          // Create the new row cells
+          // Create the first cell for the permutation (No)
           const cell1 = document.createElement('td');
           cell1.textContent = perm;  // Set the permutation as the first cell
           
+          // Create the second cell for the remain value
           const cell2 = document.createElement('td');
-          cell2.textContent = '600'; // Remaining, static value
+          cell2.textContent = remainValue; // Set 'Remain' value
 
+          // Create the third cell for Amt input
           const cell3 = document.createElement('td');
           const amtInput = document.createElement('input');
           amtInput.type = 'number';
-          amtInput.value = '300'; // Default value for Amt
+          amtInput.classList.add('amtInput');
+          amtInput.value = ''; // Set empty value as default
           amtInput.placeholder = 'Enter Amt';
           cell3.appendChild(amtInput); // Allow user to input Amt value
 
+          // Create the fourth and fifth cells for My and Buy
           const cell4 = document.createElement('td');
-          cell4.textContent = '200'; // My, static value
-
           const cell5 = document.createElement('td');
-          cell5.textContent = '100'; // Buy, static value
+
+          // Calculate 'My' and 'Buy' based on the Amt and Remain
+          amtInput.addEventListener('input', function() {
+            const amt = parseFloat(amtInput.value) || 0;  // Get the value of Amt, default to 0 if invalid
+            let my = 0;
+            let buy = 0;
+
+            if (amt <= remainValue) {
+              my = amt;
+              buy = remainValue - amt;
+            } else {
+              my = remainValue;
+              buy = amt - remainValue;  // Correct calculation for Buy
+            }
+
+            // Update 'My' and 'Buy' columns
+            cell4.textContent = my;
+            cell5.textContent = buy;
+          });
+
+          // Initialize My and Buy when the page loads
+          amtInput.dispatchEvent(new Event('input')); // Trigger the input event to set initial values
 
           // Append cells to the row
           row.appendChild(cell1);
@@ -110,6 +144,25 @@
         }
       }
     });
+
+    // Add event listener to propagate Amt value using the up arrow key
+    document.getElementById('numberTable').addEventListener('keydown', function(event) {
+      const amtInputs = document.querySelectorAll('.amtInput');
+      
+      // Check if the up arrow key is pressed and the first Amt input is filled
+      if (event.key === 'ArrowUp' && amtInputs[0].value) {
+        event.preventDefault(); // Prevent the default behavior of the up arrow key
+        
+        const firstAmtValue = amtInputs[0].value;  // Get the value from the first Amt input
+        
+        // Fill all Amt fields with the value from the first row's Amt input
+        amtInputs.forEach(input => {
+          input.value = firstAmtValue;
+          input.dispatchEvent(new Event('input'));  // Trigger the input event to recalculate 'My' and 'Buy'
+        });
+      }
+    });
+
   </script>
 </body>
 </html>

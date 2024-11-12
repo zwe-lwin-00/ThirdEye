@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Permutations</title>
+</head>
+<body>
+  <h1>Third Eye System</h1>
+
+  <table border="1" id="numberTable">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Remain</th>
+        <th>Amt</th>
+        <th>My</th>
+        <th>Buy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input type="number" id="numberInput" placeholder="Enter a number" /></td>
+        <td>600</td>
+        <td>300</td>
+        <td>200</td>
+        <td>100</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Function to generate all unique permutations of a string
+    function generatePermutations(str) {
+      const result = [];
+      const permute = (prefix, remaining) => {
+        if (remaining.length === 0) {
+          result.push(prefix);
+        } else {
+          for (let i = 0; i < remaining.length; i++) {
+            permute(prefix + remaining[i], remaining.slice(0, i) + remaining.slice(i + 1));
+          }
+        }
+      };
+      permute("", str);
+      return [...new Set(result)]; // Remove duplicates
+    }
+
+    // Handle the Enter key press to trigger the permutations
+    document.getElementById('numberInput').addEventListener('keydown', function(event) {
+      // When Enter key is pressed (key code 13)
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent form submission
+        
+        const number = document.getElementById('numberInput').value.trim();
+        
+        if (!number) {
+          alert('Please enter a number.');
+          return;
+        }
+
+        // Generate permutations
+        const permutations = generatePermutations(number);
+
+        // Get the table body
+        const tbody = document.getElementById('numberTable').getElementsByTagName('tbody')[0];
+
+        // Clear the table (except for the header)
+        tbody.innerHTML = '';
+
+        // Add each permutation to the table
+        permutations.forEach(perm => {
+          const row = document.createElement('tr');
+
+          // Create the new row cells
+          const cell1 = document.createElement('td');
+          cell1.textContent = perm;  // Set the permutation as the first cell
+          
+          const cell2 = document.createElement('td');
+          cell2.textContent = '600'; // Remaining, static value
+
+          const cell3 = document.createElement('td');
+          const amtInput = document.createElement('input');
+          amtInput.type = 'number';
+          amtInput.value = '300'; // Default value for Amt
+          amtInput.placeholder = 'Enter Amt';
+          cell3.appendChild(amtInput); // Allow user to input Amt value
+
+          const cell4 = document.createElement('td');
+          cell4.textContent = '200'; // My, static value
+
+          const cell5 = document.createElement('td');
+          cell5.textContent = '100'; // Buy, static value
+
+          // Append cells to the row
+          row.appendChild(cell1);
+          row.appendChild(cell2);
+          row.appendChild(cell3);
+          row.appendChild(cell4);
+          row.appendChild(cell5);
+
+          // Append the row to the table body
+          tbody.appendChild(row);
+        });
+
+        // Focus on the first Amt input after the table is populated
+        const firstAmtInput = tbody.querySelector('tr td input');
+        if (firstAmtInput) {
+          firstAmtInput.focus();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

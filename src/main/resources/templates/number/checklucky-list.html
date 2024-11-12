@@ -4,10 +4,30 @@
     <title>Lucky Number Transactions</title>
 </head>
 <body>
+    <h1>Third Eye System</h1>
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<button onclick="window.location.href='/break'">List Existing Breaks</button>
+<button onclick="window.location.href='/number/new'">Buy new number</button>
+<button onclick="window.location.href='/number'">List Existing Numbers</button>
+<button onclick="window.location.href='/customer/new'">Register new customer</button>
+<button onclick="window.location.href='/customer'">List Existing customers</button>
+<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
+<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
+<button onclick="confirmRestart()">Restart Database</button>
+<script>
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
+</script>
+<!-- If no transactions, show a message -->
+<h1 th:if="${#lists.isEmpty(transactions)}" style="color: red;">No transactions found for this lucky number.</h1>
 
     <h1>All Transactions Table</h1>
 
-    <!-- If there are transactions, show them in a table -->
     <table border="1">
         <thead>
             <tr>
@@ -27,7 +47,7 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td>Total Amount</td>
+                <td>Total</td>
                 <td th:text="${totalAmount}"></td>
             </tr>
         </tbody>
@@ -81,20 +101,7 @@
 
     
 
-    <!-- If no transactions, show a message -->
-    <p th:if="${#lists.isEmpty(transactions)}">No transactions found for this lucky number.</p>
-
     
-    <a href="/">Home</a><br>
-    <a href="/break/new">Create New Break</a><br>
-    <a href="/break">List Existing Breaks</a><br>
-    <a href="/number/new">Buy new number</a><br>
-    <a href="/number">List Existing Numbers</a><br>
-    <a href="/customer/new">Register new customer</a><br>
-    <a href="/customer">List Existing customer</a><br>
-    <a href="/number/checkavailable">Check Available Balance</a><br>
-    <a href="/number/checklucky">Check Lucky Number</a><br>
-    <a href="/number/restartdb">Restart Database</a><br>
 
 </body>
 </html>

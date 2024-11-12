@@ -219,14 +219,97 @@ public class NumberController {
     }
 
     @GetMapping("/newnumberversion")
-    public String buyNewNumberVersion(Model model) {
+    public String newnumberversion(Model model) {
+        model.addAttribute("number", new Number());
         return "number/newnumberform";
     }
-
+    
     @PostMapping("/getallrelatednumbers")
-    public String getAllRelatedNumbers(@RequestParam("number") String number, Model model) {
+    public String getallrelatednumbers(Number number, Model model) {
+        int targetnumber=number.getNumber();
+        List<String> permutations = generatePermutations(targetnumber);
+        
+        model.addAttribute("number", number);
         return "number/number-list"; 
     }
+
+
+
+
+
+
+
+    // Function to generate all permutations of a number
+    public List<String> generatePermutations(int number) {
+        // Convert the number to a string to manipulate digits
+        String numStr = String.valueOf(number);
+        List<String> permutations = new ArrayList<>();
+
+        // Call the helper function to perform backtracking and generate permutations
+        backtrack(numStr.toCharArray(), 0, permutations);
+
+        return permutations;
+    }
+
+    // Backtracking method to generate permutations
+    private void backtrack(char[] chars, int index, List<String> permutations) {
+        // If we've processed all the digits, we have a complete permutation
+        if (index == chars.length) {
+            permutations.add(new String(chars));
+            return;
+        }
+
+        for (int i = index; i < chars.length; i++) {
+            // Swap characters
+            swap(chars, index, i);
+            // Recursively generate permutations for the remaining digits
+            backtrack(chars, index + 1, permutations);
+            // Backtrack: undo the swap
+            swap(chars, index, i);
+        }
+    }
+
+    // Helper function to swap two characters
+    private void swap(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 }

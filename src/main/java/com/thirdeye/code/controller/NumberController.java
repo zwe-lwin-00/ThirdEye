@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.thirdeye.code.dto.TranacationSummary;
+import com.thirdeye.code.dto.TransactionSummary;
 import com.thirdeye.code.entity.Customer;
 import com.thirdeye.code.entity.Number;
-import com.thirdeye.code.entity.Tranacation;
+import com.thirdeye.code.entity.Transaction;
 import com.thirdeye.code.service.BreakService;
 import com.thirdeye.code.service.CustomerService;
 import com.thirdeye.code.service.NumberService;
-import com.thirdeye.code.service.TranacationService;
+import com.thirdeye.code.service.TransactionService;
 
 @Controller
 @RequestMapping("/number")
@@ -33,7 +33,7 @@ public class NumberController {
     private CustomerService customerservice;
 
     @Autowired
-    private TranacationService tranacationservice;
+    private TransactionService transactionservice;
 
     @Autowired
     private BreakService breakservice;
@@ -59,13 +59,13 @@ public class NumberController {
     @PostMapping("/checklucky")
     public String checkLuckyPost(@ModelAttribute("Number") Number number, Model model) {
         int luckyNumber = number.getNumber();
-        // To show all the transcations not group by customer names
-        List<Tranacation> transactions = tranacationservice.findalltranscations(luckyNumber);
-        // To show the transcations group by customer names
-        List<TranacationSummary> transactionSummaries = tranacationservice.findtransgroupbycustomer(luckyNumber);
+        // To show all the transactions not group by customer names
+        List<Transaction> transactions = transactionservice.findalltransactions(luckyNumber);
+        // To show the transactions group by customer names
+        List<TransactionSummary> transactionSummaries = transactionservice.findtransgroupbycustomer(luckyNumber);
         // Calculate the total of all amounts
         long totalAmount = transactionSummaries.stream()
-                .mapToLong(TranacationSummary::getTotalAmount)
+                .mapToLong(TransactionSummary::getTotalAmount)
                 .sum();
         // show own and buy amount
         Number numbers = numberservice.findByNumber(luckyNumber);
@@ -128,25 +128,24 @@ public class NumberController {
 
     @PostMapping
     public String buynewnumber(@ModelAttribute Number numberEntity, @RequestParam Long customerid) {
-        Tranacation Tranacation = new Tranacation();
+        Transaction Transaction = new Transaction();
         int wantToBuyAmount = numberEntity.getOwnamount();
         Number existingNumber = numberservice.findByNumber(numberEntity.getNumber());
         Customer existingCustomer = customerservice.findById(customerid);
 
         if (existingNumber != null) {
             handleExistingNumber(numberEntity, existingNumber, wantToBuyAmount);
-            Tranacation.setNumber(existingNumber);
+            Transaction.setNumber(existingNumber);
         } else {
             handleNewNumber(numberEntity, wantToBuyAmount);
             Number newNumber = numberservice.findByNumber(numberEntity.getNumber());
-            Tranacation.setNumber(newNumber);
+            Transaction.setNumber(newNumber);
         }
-        // enter into transcation
-        Tranacation.setCustomer(existingCustomer);
-        Tranacation.setTranscationdate(LocalDateTime.now());
-        Tranacation.setAmount(wantToBuyAmount);
-        Tranacation.setBuynumber(numberEntity.getNumber());
-        tranacationservice.createTranacation(Tranacation);
+        Transaction.setCustomer(existingCustomer);
+        Transaction.setTransactiondate(LocalDateTime.now());
+        Transaction.setAmount(wantToBuyAmount);
+        Transaction.setBuynumber(numberEntity.getNumber());
+        transactionservice.createTransaction(Transaction);
 
         return "redirect:/number";
     }

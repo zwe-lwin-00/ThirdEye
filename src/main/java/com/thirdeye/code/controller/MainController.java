@@ -1,6 +1,9 @@
 package com.thirdeye.code.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,14 @@ public class MainController {
         }else{
             model.addAttribute("breakstatus", false);
         }
+        //for local date time
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, EEEE, hh:mm a", Locale.ENGLISH);
+        String formattedDateTime = now.format(formatter);
+        model.addAttribute("formattedDateTime", formattedDateTime);
+
+
+
         // List<Break> breaks = breakService.findAll();
         // model.addAttribute("breaks", breaks);
         return "index"; // Return the Thymeleaf template name

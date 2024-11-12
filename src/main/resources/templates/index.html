@@ -4,6 +4,9 @@
     <title>Welcome from Home</title>
 </head>
 <body>
+  <marquee><p th:if="!${breakstatus}" style="color:red;">There is no break assigned and you need to assign one first.</p></marquee>
+  
+
     <h1>Third Eye System</h1>
 <button onclick="window.location.href='/'">Home</button><br><br>
 <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
@@ -14,7 +17,9 @@
 <button onclick="window.location.href='/customer'">List Existing customers</button><br><br>
 <button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
 <button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button><br><br>
-<button onclick="confirmRestart()">Restart Database</button>
+<button onclick="confirmRestart()">Restart Database</button><br><br><br><br>
+<p>Current Date and Time: <span th:text="${formattedDateTime}"></span></p>
+
 <script>
     function confirmRestart() {
       const userConfirmed = window.confirm("Are you sure you want to restart the database?");

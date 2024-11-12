@@ -18,11 +18,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="tranacation : ${transactions}">
-                <td th:text="${tranacation.tranacationid}"></td>
-                <td th:text="${tranacation.buynumber}"></td>
-                <td th:text="${tranacation.customer.customername}"></td>
-                <td th:text="${tranacation.amount}"></td>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.transactionid}"></td>
+                <td th:text="${transaction.buynumber}"></td>
+                <td th:text="${transaction.customer.customername}"></td>
+                <td th:text="${transaction.amount}"></td>
             </tr>
             <tr>
                 <td></td>
@@ -84,6 +84,7 @@
     <!-- If no transactions, show a message -->
     <p th:if="${#lists.isEmpty(transactions)}">No transactions found for this lucky number.</p>
 
+    
     <a href="/">Home</a><br>
     <a href="/break/new">Create New Break</a><br>
     <a href="/break">List Existing Breaks</a><br>
@@ -92,6 +93,8 @@
     <a href="/customer/new">Register new customer</a><br>
     <a href="/customer">List Existing customer</a><br>
     <a href="/number/checkavailable">Check Available Balance</a><br>
+    <a href="/number/checklucky">Check Lucky Number</a><br>
+    <a href="/number/restartdb">Restart Database</a><br>
 
 </body>
 </html>

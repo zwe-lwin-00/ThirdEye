@@ -4,6 +4,25 @@
     <title>Check Available Form</title>
 </head>
 <body>
+    <h1>Third Eye System</h1>
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<button onclick="window.location.href='/break'">List Existing Breaks</button>
+<button onclick="window.location.href='/number/new'">Buy new number</button>
+<button onclick="window.location.href='/number'">List Existing Numbers</button>
+<button onclick="window.location.href='/customer/new'">Register new customer</button>
+<button onclick="window.location.href='/customer'">List Existing customers</button>
+<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
+<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
+<button onclick="confirmRestart()">Restart Database</button>
+<script>
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
+</script>
     <h1>Check Available Amount of Number</h1>
     <form th:action="@{/number/checkavailable}" method="post" th:object="${Number}">
         <label for="number">Number:</label>
@@ -15,18 +34,5 @@
     <div th:if="${availableAmount != null}">
         <h2>Available Amount: <span th:text="${availableAmount}"></span></h2>
     </div>
-
-    
-    
-    <a href="/">Home</a><br>
-    <a href="/break/new">Create New Break</a><br>
-    <a href="/break">List Existing Breaks</a><br>
-    <a href="/number/new">Buy new number</a><br>
-    <a href="/number">List Existing Numbers</a><br>
-    <a href="/customer/new">Register new customer</a><br>
-    <a href="/customer">List Existing customer</a><br>
-    <a href="/number/checkavailable">Check Available Balance</a><br>
-    <a href="/number/checklucky">Check Lucky Number</a><br>
-    <a href="/number/restartdb">Restart Database</a><br>
 </body>
 </html>

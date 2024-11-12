@@ -26,7 +26,7 @@ public class BreakController {
     public String listBreaks(Model model) {
         List<Break> breaks = breakService.findAll();
         model.addAttribute("breaks", breaks);
-        return "break/break-list"; // Return the Thymeleaf template name
+        return "break/break-list"; 
     }
 
     // Show form to create a new Break
@@ -39,7 +39,7 @@ public class BreakController {
     // Show form to edit an existing Break
     @GetMapping("/{id}")
     public String editBreakForm(@PathVariable Long id, Model model) {
-        Break breakEntity = breakService.findById(id); // Create this method in your service
+        Break breakEntity = breakService.findById(id);
         model.addAttribute("break", breakEntity);
         return "break/break-form";
     }
@@ -48,20 +48,20 @@ public class BreakController {
     @PostMapping
     public String createBreak(@ModelAttribute Break breakEntity) {
         breakService.createBreak(breakEntity);
-        return "redirect:/break"; // Redirect after creation
+        return "redirect:/break"; 
     }
 
     // Handle update of an existing Break
     @PostMapping("/{id}")
     public String updateBreak(@PathVariable Long id, @ModelAttribute Break breakEntity) {
         breakService.updateBreak(id, breakEntity);
-        return "redirect:/break"; // Redirect after update
+        return "redirect:/break"; 
     }
 
     // Optionally, handle deletion
     @GetMapping("/delete/{id}")
     public String deleteBreak(@PathVariable Long id) {
-        breakService.deleteBreak(id); // Create this method in your service
-        return "redirect:/break"; // Redirect after deletion
+        breakService.deleteBreak(id); 
+        return "redirect:/break"; 
     }
 }

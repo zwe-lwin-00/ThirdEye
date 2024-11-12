@@ -29,8 +29,8 @@ public interface NumberRepository extends JpaRepository<Number, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from testingdemodb1.tranacation", nativeQuery = true)
-    void deletetranacation();
+    @Query(value = "delete from testingdemodb1.transaction", nativeQuery = true)
+    void deletetransaction();
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface NumberRepository extends JpaRepository<Number, Long> {
 
     default void restartdb() {
         deletebreak();
-        deletetranacation();
+        deletetransaction();
         deletenumber();
         //deletecustomer();
     }

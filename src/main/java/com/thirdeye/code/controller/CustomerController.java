@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.thirdeye.code.entity.Break;
 import com.thirdeye.code.entity.Customer;
+import com.thirdeye.code.service.BreakService;
 import com.thirdeye.code.service.CustomerService;
 
 @Controller
@@ -21,8 +23,19 @@ public class CustomerController {
     @Autowired
     private CustomerService customerservice;
 
+    @Autowired
+    private BreakService breakService;
+
     @GetMapping
     public String listCustomers(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+
         List<Customer> customers = customerservice.findAll();
         model.addAttribute("customers", customers);
         return "customer/customer-list";
@@ -30,6 +43,14 @@ public class CustomerController {
 
     @GetMapping("/new")
     public String buycustomerform(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+        
         model.addAttribute("customer", new Customer());
         return "customer/customer-form";
     }

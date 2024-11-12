@@ -218,4 +218,15 @@ public class NumberController {
         numberservice.createNumber(numberEntity);
     }
 
+    @GetMapping("/newnumberversion")
+    public String buyNewNumberVersion(Model model) {
+        return "number/newnumberform";
+    }
+
+    @PostMapping("/getallrelatednumbers")
+    public String getAllRelatedNumbers(@RequestParam("number") String number, Model model) {
+        return "number/number-list"; 
+    }
+    
+
 }

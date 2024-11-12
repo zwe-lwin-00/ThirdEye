@@ -5,7 +5,7 @@ import com.thirdeye.code.entity.Customer;
 import lombok.Data;
 
 @Data
-public class TranacationSummary {
+public class TransactionSummary {
     private int buynumber;
     private Customer customer;
     private Long totalAmount;

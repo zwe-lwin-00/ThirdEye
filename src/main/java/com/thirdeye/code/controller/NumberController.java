@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.thirdeye.code.dto.TransactionSummary;
+import com.thirdeye.code.entity.Break;
 import com.thirdeye.code.entity.Customer;
 import com.thirdeye.code.entity.Number;
 import com.thirdeye.code.entity.Transaction;
@@ -30,6 +31,9 @@ public class NumberController {
     private NumberService numberservice;
 
     @Autowired
+    private BreakService breakService;
+
+    @Autowired
     private CustomerService customerservice;
 
     @Autowired
@@ -40,6 +44,14 @@ public class NumberController {
 
     @GetMapping("/checkavailable")
     public String checkAvailable(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+        
         model.addAttribute("Number", new Number());
         return "number/checkavailable-form";
     }
@@ -52,6 +64,14 @@ public class NumberController {
 
     @GetMapping("/checklucky")
     public String checkLuckyform(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+        
         model.addAttribute("Number", new Number());
         return "number/checklucky-form";
     }
@@ -94,6 +114,14 @@ public class NumberController {
 
     @GetMapping
     public String listNumbers(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+        
         List<Number> numbers = numberservice.findAll();
         model.addAttribute("numbers", numbers);
         return "number/number-list";
@@ -101,6 +129,14 @@ public class NumberController {
 
     @GetMapping("/new")
     public String buynumberform(Model model) {
+        //for disable break add
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
+        
         model.addAttribute("number", new Number());
         List<Customer> customers = customerservice.findAll();
         model.addAttribute("customers", customers);

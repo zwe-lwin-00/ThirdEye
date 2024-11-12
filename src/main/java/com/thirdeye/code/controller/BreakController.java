@@ -25,6 +25,11 @@ public class BreakController {
     @GetMapping
     public String listBreaks(Model model) {
         List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
         model.addAttribute("breaks", breaks);
         return "break/break-list"; 
     }
@@ -32,6 +37,12 @@ public class BreakController {
     // Show form to create a new Break
     @GetMapping("/new")
     public String createBreakForm(Model model) {
+        List<Break> breaks = breakService.findAll();
+        if (breaks != null && !breaks.isEmpty()) {
+            model.addAttribute("breakstatus", true);
+        }else{
+            model.addAttribute("breakstatus", false);
+        }
         model.addAttribute("break", new Break());
         return "break/break-form";
     }

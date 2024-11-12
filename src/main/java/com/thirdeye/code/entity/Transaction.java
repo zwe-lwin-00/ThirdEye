@@ -11,17 +11,17 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Tranacation {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tranacationid;
-    private LocalDateTime transcationdate;
+    private Long transactionid;
+    private LocalDateTime transactiondate;
     @ManyToOne
-    private Number number; // Reference to Number entity
+    private Number number;
 
     @ManyToOne
-    private Customer customer; // Reference to Customer entity
+    private Customer customer;
 
     private int amount;
     private int buynumber;

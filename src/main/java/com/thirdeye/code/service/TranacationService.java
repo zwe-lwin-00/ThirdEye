@@ -6,36 +6,36 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.thirdeye.code.dto.TranacationSummary;
+import com.thirdeye.code.dto.TransactionSummary;
 import com.thirdeye.code.entity.Customer;
-import com.thirdeye.code.entity.Tranacation;
-import com.thirdeye.code.repository.TranacationRepository;
+import com.thirdeye.code.entity.Transaction;
+import com.thirdeye.code.repository.TransactionRepository;
 
 @Service
-public class TranacationService {
+public class TransactionService {
 
     @Autowired
 
-    private TranacationRepository tranacationrepository;
+    private TransactionRepository transactionrepository;
 
-    public List<Tranacation> findAll() {
-        return tranacationrepository.findAll();
+    public List<Transaction> findAll() {
+        return transactionrepository.findAll();
     }
 
-    public Tranacation createTranacation(Tranacation tranacationEntity) {
-        return tranacationrepository.save(tranacationEntity);
+    public Transaction createTransaction(Transaction transactionEntity) {
+        return transactionrepository.save(transactionEntity);
     }
 
-    public List<Tranacation> findalltranscations(int luckyNumber) {
-        return tranacationrepository.findalltranscations(luckyNumber);
+    public List<Transaction> findalltransactions(int luckyNumber) {
+        return transactionrepository.findalltransactions(luckyNumber);
     }
 
-    public List<TranacationSummary> findtransgroupbycustomer(int luckyNumber) {
-        List<Object[]> results = tranacationrepository.findtransgroupbycustomer(luckyNumber);
-        List<TranacationSummary> summaries = new ArrayList<>();
+    public List<TransactionSummary> findtransgroupbycustomer(int luckyNumber) {
+        List<Object[]> results = transactionrepository.findtransgroupbycustomer(luckyNumber);
+        List<TransactionSummary> summaries = new ArrayList<>();
 
         for (Object[] result : results) {
-            TranacationSummary summary = new TranacationSummary();
+            TransactionSummary summary = new TransactionSummary();
             summary.setBuynumber((Integer) result[0]);
             summary.setCustomer((Customer) result[1]);
             summary.setTotalAmount((Long) result[2]);

@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Number Form</title>
+    <title>Number Form Result</title>
 </head>
 <body>
-    <h2>Number Form</h2>
+    <h2>Permutations and Available Amounts</h2>
     
     <form action="/number/getallrelatednumbers" method="post" th:object="${number}">
         <label for="number">Number:</label>
         <input type="number" id="number" th:field="*{number}" placeholder="Enter your number" required/><br><br>
-
         <button type="submit">Submit</button>
     </form>
+
+    <hr>
+
+    <h3>Results for Number: <span th:text="${number.number}"></span></h3>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Remain</th>
+                <th>Amt</th>
+                <th>My</th>
+                <th>Buy</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="perm, iterStat : ${permutations}">
+                <td th:text="${perm}"></td>
+                <td th:text="${availableAmounts[iterStat.index]}" class="remain"></td>
+                <td><input type="number" class="amt" oninput="calculateValues(this)"></td>
+                <td class="my"></td>
+                <td class="buy"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="window.location.href='/'">Home</button>
+
+    <script>
+        function calculateValues(input) {
+            const row = input.closest('tr');
+            const remain = parseFloat(row.querySelector('.remain').textContent) || 0;
+            const amt = parseFloat(input.value) || 0;
+
+            let my, buy;
+
+            if (amt <= remain) {
+                my = amt;
+                buy = 0;
+            } else {
+                my = remain;
+                buy = amt - remain;
+            }
+
+            // Only display non-zero values
+            row.querySelector('.my').textContent = my !== 0 ? my : '';
+            row.querySelector('.buy').textContent = buy !== 0 ? buy : '';
+        }
+    </script>
 </body>
 </html>

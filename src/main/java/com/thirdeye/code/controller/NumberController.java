@@ -1,6 +1,7 @@
 package com.thirdeye.code.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,14 @@ public class NumberController {
 
     @GetMapping("/checkavailable")
     public String checkAvailable(Model model) {
-        //for disable break add
+        // for disable break add
         List<Break> breaks = breakService.findAll();
         if (breaks != null && !breaks.isEmpty()) {
             model.addAttribute("breakstatus", true);
-        }else{
+        } else {
             model.addAttribute("breakstatus", false);
         }
-        
+
         model.addAttribute("Number", new Number());
         return "number/checkavailable-form";
     }
@@ -64,14 +65,14 @@ public class NumberController {
 
     @GetMapping("/checklucky")
     public String checkLuckyform(Model model) {
-        //for disable break add
+        // for disable break add
         List<Break> breaks = breakService.findAll();
         if (breaks != null && !breaks.isEmpty()) {
             model.addAttribute("breakstatus", true);
-        }else{
+        } else {
             model.addAttribute("breakstatus", false);
         }
-        
+
         model.addAttribute("Number", new Number());
         return "number/checklucky-form";
     }
@@ -114,14 +115,14 @@ public class NumberController {
 
     @GetMapping
     public String listNumbers(Model model) {
-        //for disable break add
+        // for disable break add
         List<Break> breaks = breakService.findAll();
         if (breaks != null && !breaks.isEmpty()) {
             model.addAttribute("breakstatus", true);
-        }else{
+        } else {
             model.addAttribute("breakstatus", false);
         }
-        
+
         List<Number> numbers = numberservice.findAll();
         model.addAttribute("numbers", numbers);
         return "number/number-list";
@@ -129,14 +130,14 @@ public class NumberController {
 
     @GetMapping("/new")
     public String buynumberform(Model model) {
-        //for disable break add
+        // for disable break add
         List<Break> breaks = breakService.findAll();
         if (breaks != null && !breaks.isEmpty()) {
             model.addAttribute("breakstatus", true);
-        }else{
+        } else {
             model.addAttribute("breakstatus", false);
         }
-        
+
         model.addAttribute("number", new Number());
         List<Customer> customers = customerservice.findAll();
         model.addAttribute("customers", customers);
@@ -223,21 +224,46 @@ public class NumberController {
         model.addAttribute("number", new Number());
         return "number/newnumberform";
     }
-    
+
     @PostMapping("/getallrelatednumbers")
     public String getallrelatednumbers(Number number, Model model) {
-        int targetnumber=number.getNumber();
+        int targetnumber = number.getNumber();
         List<String> permutations = generatePermutations(targetnumber);
-        
+        List<Integer> availableAmounts = new ArrayList<>();
+
+        // For each permutation, find the available amount
+        for (String perm : permutations) {
+            // Convert the permutation back to an integer
+            int permNumber = Integer.parseInt(perm);
+            int availableAmount = findAvailableAmountForNumber(permNumber);
+            availableAmounts.add(availableAmount);
+        }
+        model.addAttribute("availableAmounts", availableAmounts);
+        model.addAttribute("permutations", permutations);
         model.addAttribute("number", number);
-        return "number/number-list"; 
+        return "number/newnumberform";
     }
 
+    private int findAvailableAmountForNumber(int number) {
+        Number numberinfo = numberservice.findByNumber(number);
+        int currentbreakamount = breakservice.getLatestBreakAmount();
+        int availableamount;
+        if (numberinfo != null) {
+            int currentownamount = numberinfo.getOwnamount();
+            int currentbuyamount = numberinfo.getBuyamount();
+            if (currentbuyamount > 0) {
+                availableamount = 0;
+            } else {
+                availableamount = currentbreakamount - currentownamount;
+            }
 
+        } else {
+            availableamount = currentbreakamount;
 
+        }
 
-
-
+        return availableamount;
+    }
 
     // Function to generate all permutations of a number
     public List<String> generatePermutations(int number) {
@@ -275,41 +301,5 @@ public class NumberController {
         chars[i] = chars[j];
         chars[j] = temp;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
 }

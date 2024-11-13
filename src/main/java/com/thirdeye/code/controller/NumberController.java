@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.thirdeye.code.dto.PermutationData;
 import com.thirdeye.code.dto.TransactionSummary;
 import com.thirdeye.code.entity.Break;
 import com.thirdeye.code.entity.Customer;
@@ -221,6 +224,8 @@ public class NumberController {
 
     @GetMapping("/newnumberversion")
     public String newnumberversion(Model model) {
+        List<Customer> customers = customerservice.findAll();
+        model.addAttribute("customers", customers);
         model.addAttribute("number", new Number());
         return "number/newnumberform";
     }
@@ -241,6 +246,8 @@ public class NumberController {
         model.addAttribute("availableAmounts", availableAmounts);
         model.addAttribute("permutations", permutations);
         model.addAttribute("number", number);
+        List<Customer> customers = customerservice.findAll();
+        model.addAttribute("customers", customers);
         return "number/newnumberform";
     }
 
@@ -301,5 +308,64 @@ public class NumberController {
         chars[i] = chars[j];
         chars[j] = temp;
     }
+
+
+    @PostMapping("/savepermutations")
+    @ResponseBody
+    public String savePermutations(@RequestBody PermutationData permutationData) {
+    //int customerId = Integer.parseInt(permutationData.getCustomerid());  // Customer ID
+    long customerId = Long.parseLong(permutationData.getCustomerid());
+    
+    // Lists of values for each permutation
+    List<String> number = permutationData.getNumber();
+    List<String> remain = permutationData.getRemain();  // The 'remain' values
+    List<String> amt = permutationData.getAmt();  // The 'amt' values
+    List<String> my = permutationData.getMy();  // The 'my' values
+    List<String> buy = permutationData.getBuy();  // The 'buy' values
+    
+    // Ensure that the lists have the same size (i.e., same number of permutations)
+    if (remain.size() != amt.size() || amt.size() != my.size() || my.size() != buy.size()) {
+        return "{\"message\": \"Mismatch in data sizes for remain, amt, my, and buy\"}";
+    }
+    
+    // Get the customer from the database
+    Customer existingCustomer = customerservice.findById(customerId);
+    if (existingCustomer == null) {
+        return "{\"message\": \"Customer not found\"}";
+    }
+
+    // Create a list of transactions for each permutation
+    for (int i = 0; i < remain.size(); i++) {
+        // Get the current values for the permutation
+        String currentNumber = number.get(i);
+        String currentRemain = remain.get(i);
+        String currentAmt = amt.get(i);
+        String currentMy = my.get(i);
+        String currentBuy = buy.get(i);
+
+        // Process the permutation (e.g., logging the values or performing calculations)
+        System.out.println("Processing permutation " + (i + 1) + ":");
+        System.out.println("currentNumber: " + currentNumber);
+        System.out.println("Remain: " + currentRemain);
+        System.out.println("Amt: " + currentAmt);
+        System.out.println("My: " + currentMy);
+        System.out.println("Buy: " + currentBuy);
+        System.out.println("----------------------------------------");
+
+        // Create a new transaction for each permutation
+        Transaction transaction = new Transaction();
+        transaction.setCustomer(existingCustomer);
+        transaction.setTransactiondate(LocalDateTime.now());
+        transaction.setAmount(Integer.parseInt(currentAmt));  // Amount
+        
+        transactionservice.createTransaction(transaction);
+    }
+
+    // Return a success message
+    return "{\"message\": \"Data submitted successfully\"}";
+    }
+
+
+
 
 }

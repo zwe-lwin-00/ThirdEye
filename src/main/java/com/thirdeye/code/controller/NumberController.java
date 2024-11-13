@@ -324,6 +324,9 @@ public class NumberController {
     List<String> buy = permutationData.getBuy();  // The 'buy' values
     
     // Ensure that the lists have the same size (i.e., same number of permutations)
+    // if (remain.size() != amt.size() || amt.size() != my.size() || my.size() != buy.size()) {
+    //     return "{\"message\": \"Mismatch in data sizes for remain, amt, my, and buy\"}";
+    // }
     if (remain.size() != amt.size() || amt.size() != my.size() || my.size() != buy.size()) {
         return "{\"message\": \"Mismatch in data sizes for remain, amt, my, and buy\"}";
     }
@@ -334,14 +337,33 @@ public class NumberController {
         return "{\"message\": \"Customer not found\"}";
     }
 
+
+    
+    if (existingCustomer == null) {
+        return "{\"message\": \"Customer not found\"}";
+    }
+
     // Create a list of transactions for each permutation
     for (int i = 0; i < remain.size(); i++) {
         // Get the current values for the permutation
-        String currentNumber = number.get(i);
-        String currentRemain = remain.get(i);
-        String currentAmt = amt.get(i);
-        String currentMy = my.get(i);
-        String currentBuy = buy.get(i);
+        int currentNumber = Integer.parseInt(number.get(i));
+        int currentRemain = Integer.parseInt(remain.get(i));
+        int currentAmt = Integer.parseInt(amt.get(i));
+        int currentMy;
+        int currentBuy;
+        if("".equals(my.get(i))){
+            currentMy =0;
+        }else{
+            currentMy = Integer.parseInt(my.get(i));
+        }
+
+        if("".equals(my.get(i))){
+            currentBuy =0;
+        }else{
+            currentBuy = Integer.parseInt(buy.get(i));
+        }
+        
+        
 
         // Process the permutation (e.g., logging the values or performing calculations)
         System.out.println("Processing permutation " + (i + 1) + ":");
@@ -352,12 +374,35 @@ public class NumberController {
         System.out.println("Buy: " + currentBuy);
         System.out.println("----------------------------------------");
 
+
+        Number existingNumber = numberservice.findInfoByNumber(currentNumber);
+        Number numberentity = new Number();
+        
+        numberentity.setNumber(currentNumber);
+        numberentity.setBuyamount(currentBuy);
+        numberentity.setOwnamount(currentMy);
+
+        if(existingNumber!=null){
+            numberentity.setNumber(currentNumber);
+            numberentity.setBuyamount(existingNumber.getBuyamount()+currentAmt);
+            numberentity.setOwnamount(existingNumber.getOwnamount());
+            numberservice.updateNumber(existingNumber.getNumberid(), numberentity);
+        }else{
+            numberentity.setNumber(currentNumber);
+            numberentity.setBuyamount(currentBuy);
+            numberentity.setOwnamount(currentMy);
+            numberservice.createNumber(numberentity);
+        }
+        
+
         // Create a new transaction for each permutation
         Transaction transaction = new Transaction();
-        transaction.setCustomer(existingCustomer);
+        Number existingNumber2 = numberservice.findInfoByNumber(currentNumber);
+        transaction.setAmount(currentAmt);
+        transaction.setBuynumber(currentNumber);
         transaction.setTransactiondate(LocalDateTime.now());
-        transaction.setAmount(Integer.parseInt(currentAmt));  // Amount
-        
+        transaction.setCustomer(existingCustomer);
+        transaction.setNumber(existingNumber2);
         transactionservice.createTransaction(transaction);
     }
 

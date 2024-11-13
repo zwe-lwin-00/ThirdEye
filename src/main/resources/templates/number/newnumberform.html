@@ -67,6 +67,11 @@
     <button onclick="window.location.href='/'">Home</button>
 
     <script>
+        // Focus the number input when the page loads
+        window.onload = function() {
+            document.getElementById('number').focus();
+        };
+        
         // Function to calculate 'My' and 'Buy' based on input 'Amt' and available 'Remain'
         function calculateValues(input) {
             const row = input.closest('tr');
@@ -108,7 +113,11 @@
             console.log('Customer ID:', customerId);
 
             // Ensure all fields have valid values
-            if (myValues.includes("") || buyValues.includes("") || amtValues.includes("") || customerId === "") {
+        //     if (myValues.includes("") || buyValues.includes("") || amtValues.includes("") || customerId === "") {
+        // alert("Please ensure all fields are filled out, including customer selection!");
+        // return;
+
+        if (customerId === "") {
         alert("Please ensure all fields are filled out, including customer selection!");
         return;
     }

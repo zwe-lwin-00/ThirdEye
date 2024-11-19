@@ -6,18 +6,18 @@
 <body>
   <marquee><p th:if="!${breakstatus}" style="color:red;">There is no break assigned and you need to assign one first.</p></marquee>
   
-<button onclick="window.location.href='/number/newnumberversion'">New Version Buy new number</button>
+  <button th:disabled="${!breakstatus}" onclick="window.location.href='/number/newnumberversion'">New Version Buy new number</button>
 
     <h1>Third Eye System</h1>
 <button onclick="window.location.href='/'">Home</button><br><br>
 <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button onclick="window.location.href='/break'">List Existing Breaks</button><br><br>
-<button onclick="window.location.href='/number/new'">Buy new number</button>
-<button onclick="window.location.href='/number'">List Existing Numbers</button><br><br>
-<button onclick="window.location.href='/customer/new'">Register new customer</button>
-<button onclick="window.location.href='/customer'">List Existing customers</button><br><br>
-<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/break'">List Existing Breaks</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/new'">Buy new number</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number'">List Existing Numbers</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer/new'">Register new customer</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer'">List Existing customers</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checklucky'">Check Lucky Number</button><br><br>
 <button onclick="confirmRestart()">Restart Database</button><br><br><br><br>
 <p>Current Date and Time: <span th:text="${formattedDateTime}"></span></p>
 

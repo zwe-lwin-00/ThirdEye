@@ -337,30 +337,37 @@ public class NumberController {
         return "{\"message\": \"Customer not found\"}";
     }
 
-
-    
-    if (existingCustomer == null) {
-        return "{\"message\": \"Customer not found\"}";
-    }
-
     // Create a list of transactions for each permutation
     for (int i = 0; i < remain.size(); i++) {
         // Get the current values for the permutation
         int currentNumber = Integer.parseInt(number.get(i));
         int currentRemain = Integer.parseInt(remain.get(i));
-        int currentAmt = Integer.parseInt(amt.get(i));
+        int currentAmt;
         int currentMy;
         int currentBuy;
+
+        if("".equals(amt.get(i))){
+            currentAmt =0;
+        }else{
+            currentAmt = Integer.parseInt(amt.get(i));
+        }
+
         if("".equals(my.get(i))){
             currentMy =0;
         }else{
             currentMy = Integer.parseInt(my.get(i));
         }
 
-        if("".equals(my.get(i))){
+        if("".equals(buy.get(i))){
             currentBuy =0;
         }else{
             currentBuy = Integer.parseInt(buy.get(i));
+        }
+
+
+        if(currentAmt==0){
+            System.out.println("The number "+currentNumber+" Buyamount and Own Amount is 0. So it do not need to count");
+
         }
         
         
@@ -374,28 +381,38 @@ public class NumberController {
         System.out.println("Buy: " + currentBuy);
         System.out.println("----------------------------------------");
 
-
+        //get the current numnerrelatedentity
         Number existingNumber = numberservice.findInfoByNumber(currentNumber);
-        Number numberentity = new Number();
-        
-        numberentity.setNumber(currentNumber);
-        numberentity.setBuyamount(currentBuy);
-        numberentity.setOwnamount(currentMy);
-
+        Number preparenumberentity = new Number();
         if(existingNumber!=null){
-            numberentity.setNumber(currentNumber);
-            numberentity.setBuyamount(existingNumber.getBuyamount()+currentAmt);
-            numberentity.setOwnamount(existingNumber.getOwnamount());
-            numberservice.updateNumber(existingNumber.getNumberid(), numberentity);
-        }else{
-            numberentity.setNumber(currentNumber);
-            numberentity.setBuyamount(currentBuy);
-            numberentity.setOwnamount(currentMy);
-            numberservice.createNumber(numberentity);
-        }
-        
+            int curbuy=existingNumber.getBuyamount();
+            int curown=existingNumber.getOwnamount();
+            
+            preparenumberentity.setNumber(currentNumber);
+            preparenumberentity.setBuyamount(currentBuy+curbuy);
+            preparenumberentity.setOwnamount(currentMy+curown);
+            
+            if(currentAmt!=0){
+                numberservice.updateNumber(existingNumber.getNumberid(), preparenumberentity);
+    
+            }
 
-        // Create a new transaction for each permutation
+
+
+        }else{
+            preparenumberentity.setNumber(currentNumber);
+            preparenumberentity.setBuyamount(currentBuy);
+            preparenumberentity.setOwnamount(currentMy);
+           
+
+            if(currentAmt!=0){
+                numberservice.createNumber(preparenumberentity);
+    
+            }
+        }
+
+        if(currentAmt!=0){
+            // Create a new transaction for each permutation
         Transaction transaction = new Transaction();
         Number existingNumber2 = numberservice.findInfoByNumber(currentNumber);
         transaction.setAmount(currentAmt);
@@ -404,6 +421,11 @@ public class NumberController {
         transaction.setCustomer(existingCustomer);
         transaction.setNumber(existingNumber2);
         transactionservice.createTransaction(transaction);
+
+        }
+
+
+        
     }
 
     // Return a success message

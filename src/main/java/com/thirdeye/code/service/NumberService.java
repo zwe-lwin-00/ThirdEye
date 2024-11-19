@@ -68,4 +68,10 @@ public class NumberService {
         numberrepository.restartdb();
     }
 
+    public Number findInfoByNumber(int number) {
+        return numberrepository.findInfoByNumber(number);
+    }
+
+    
+
 }

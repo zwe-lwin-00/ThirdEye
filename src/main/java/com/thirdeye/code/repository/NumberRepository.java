@@ -46,7 +46,9 @@ public interface NumberRepository extends JpaRepository<Number, Long> {
         deletebreak();
         deletetransaction();
         deletenumber();
-        //deletecustomer();
+        // deletecustomer();
     }
+
+    Number findInfoByNumber(int number);
 
 }

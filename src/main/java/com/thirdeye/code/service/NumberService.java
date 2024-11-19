@@ -72,6 +72,4 @@ public class NumberService {
         return numberrepository.findInfoByNumber(number);
     }
 
-    
-
 }

@@ -24,20 +24,23 @@ public class MainController {
     // List all breaks
     @GetMapping
     public String listBreaks(Model model) {
-        //for disable break add
+        // for disable break add
         List<Break> breaks = breakService.findAll();
         if (breaks != null && !breaks.isEmpty()) {
             model.addAttribute("breakstatus", true);
-        }else{
+        } else {
             model.addAttribute("breakstatus", false);
         }
-        //for local date time
+        // for local date time
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, EEEE, hh:mm a", Locale.ENGLISH);
         String formattedDateTime = now.format(formatter);
         model.addAttribute("formattedDateTime", formattedDateTime);
 
-
+        // int testingincoming = 500;
+        // int currentbreak = breakService.getLatestBreakAmount();
+        // int diff = testingincoming - currentbreak;
+        // breakService.changeincomingisbigger(diff);
 
         // List<Break> breaks = breakService.findAll();
         // model.addAttribute("breaks", breaks);

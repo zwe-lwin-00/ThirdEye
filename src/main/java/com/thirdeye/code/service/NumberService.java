@@ -37,7 +37,6 @@ public class NumberService {
         return numberrepository.save(numberEntity);
     }
 
-    // Update an existing Number
     public Number updateNumber(Long numberId, Number numberEntity) {
         if (numberrepository.existsById(numberId)) {
             numberEntity.setNumberid(numberId);

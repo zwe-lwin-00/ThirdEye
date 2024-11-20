@@ -33,7 +33,6 @@ public class CustomerService {
         return customerrepository.save(customerEntity);
     }
 
-    // Update an existing Customer
     public Customer updateCustomer(Long customerId, Customer customerEntity) {
         if (customerrepository.existsById(customerId)) {
             customerEntity.setCustomerid(customerId);

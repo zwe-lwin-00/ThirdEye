@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Customer List</title>
+<title>Customer List</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Third Eye System</h1>
-    <button onclick="window.location.href='/'">Home</button>
-    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<h1>Third Eye System</h1>
+<button onclick="window.location.href='/'">Home</button>
+<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
 <button onclick="window.location.href='/break'">List Existing Breaks</button>
 <button onclick="window.location.href='/number/new'">Buy new number</button>
 <button onclick="window.location.href='/number'">List Existing Numbers</button>
@@ -16,28 +17,26 @@
 <button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
 <button onclick="confirmRestart()">Restart Database</button>
 <script>
-    function confirmRestart() {
-      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-      if (userConfirmed) {
-        window.location.href = '/number/restartdb';
-      }
-    }
+function confirmRestart() {
+const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+if (userConfirmed) {
+window.location.href = '/number/restartdb';
+}
+}
 </script>
-    <h1>Customers</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Customer Name</th>
-            <th>Action</th>
-        </tr>
-        <tr th:each="customer : ${customers}">
-            <td th:text="${customer.customerid}"></td>
-            <td th:text="${customer.customername}"></td>
-            <td>
-                <a th:href="@{/customer/{id}(id=${customer.customerid})}">Edit</a>
-                <a th:href="@{/customer/delete/{id}(id=${customer.customerid})}">Delete</a>
-            </td>
-        </tr>
-    </table>
+<h1>Customers</h1>
+<table border="1" class="listtable">
+<tr>
+<th>Customer Name</th>
+<th>Action</th>
+</tr>
+<tr th:each="customer : ${customers}">
+<td th:text="${customer.customername}"></td>
+<td>
+<a th:href="@{/customer/{id}(id=${customer.customerid})}">Edit</a>
+<a th:href="@{/customer/delete/{id}(id=${customer.customerid})}">Delete</a>
+</td>
+</tr>
+</table>
 </body>
 </html>

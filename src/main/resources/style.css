@@ -1,0 +1,171 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #333;
+  color: white;
+}
+.indexbutton {
+  font-size: 14px;
+  padding: 10px 10px;
+  margin: 2px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.indexbutton:hover {
+  background-color: orangered;
+}
+
+.warning {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.indexbutton:disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+button {
+  font-size: 14px;
+  padding: 10px 10px;
+  margin: 2px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: orangered;
+}
+button:disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+/* Styling for tables with class "listtable" */
+.listtable {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+
+.listtable th,
+.listtable td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid orange;
+}
+
+.listtable th {
+  font-weight: bold;
+  background-color: #7a8b8d; /* Light background for headers */
+}
+
+/* Hover effect for table rows */
+.listtable tr:hover {
+  background-color: orange;
+}
+
+/* Styling for links inside the table */
+.listtable a {
+  text-decoration: none;
+  color: #2196f3;
+  margin-right: 10px;
+}
+
+.listtable a:hover {
+  color: red;
+}
+
+/* Optional: Style for the table container */
+.table-container {
+  overflow-x: auto;
+}
+
+
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; /* Make the input and dropdown take up full width */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+select:focus {
+  border-color: #4CAF50; /* Change border color on focus */
+  outline: none; /* Remove the default outline */
+}
+
+
+
+
+.newforms{
+  border: 1px solid orange;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+
+.newforms label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  text-align: left; /* Left-align the labels */
+}
+
+/* Input field styling */
+.newforms input[type="number"],.newforms input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%; /* Make the input take up full width */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+.newforms input[type="number"],.newforms input[type="text"]:focus {
+  border-color: #4CAF50; /* Change border color on focus */
+  outline: none; /* Remove the default outline */
+}
+
+
+
+.newforms button {
+  font-size: 14px;
+  padding: 10px 10px;
+  margin: 2px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.newforms button:hover {
+  background-color: orangered;
+}
+.newforms button:disabled {
+  background-color: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}

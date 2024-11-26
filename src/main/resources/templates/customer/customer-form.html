@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Customer Form</title>
+<title>Customer Form</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Third Eye System</h1>
-    <button onclick="window.location.href='/'">Home</button>
-    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<h1>Third Eye System</h1>
+<button onclick="window.location.href='/'">Home</button>
+<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
 <button onclick="window.location.href='/break'">List Existing Breaks</button>
 <button onclick="window.location.href='/number/new'">Buy new number</button>
 <button onclick="window.location.href='/number'">List Existing Numbers</button>
@@ -16,21 +17,27 @@
 <button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
 <button onclick="confirmRestart()">Restart Database</button>
 <script>
-    function confirmRestart() {
-      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-      if (userConfirmed) {
-        window.location.href = '/number/restartdb';
-      }
-    }
+function confirmRestart() {
+const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+if (userConfirmed) {
+window.location.href = '/number/restartdb';
+}
+}
 </script>
-    <h1 th:text="${customer.customerid != null} ? 'Update Customer' : 'Create Customer'"></h1>
-    <form th:action="@{${customer.customerid != null} ? '/customer/' + ${customer.customerid} : '/customer'}"
-          method="post" th:object="${customer}">
-        <label for="customername">Customer Name:</label>
-        <input type="text" id="customername" th:field="*{customername}" required/>
-        
-        <button type="submit" th:text="${customer.customerid != null} ? 'Update' : 'Create'"></button>
-    </form>
-    
+<h1 th:if="${customer.customerid != null}" th:text="'Update Customer'"></h1>
+<h1 th:if="${customer.customerid == null}" th:text="'Create Customer'"></h1>
+
+<form class="newforms" th:action="@{${customer.customerid != null} ? '/customer/' + ${customer.customerid} : '/customer'}"
+method="post" th:object="${customer}">
+<label for="customername">Customer Name:</label><br><br>
+<input type="text" id="customername" th:field="*{customername}" required/><br><br>
+
+
+<button type="submit" th:if="${customer.customerid != null}" th:text="'Update'"></button>
+<button type="submit" th:if="${customer.customerid == null}" th:text="'Create'"></button>
+
+
+</form>
+
 </body>
 </html>

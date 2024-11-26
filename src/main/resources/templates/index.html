@@ -1,34 +1,129 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome from Home</title>
+<title>Welcome from Home</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="/css/style.css" rel="stylesheet" />
 </head>
 <body>
-  <marquee><p th:if="!${breakstatus}" style="color:red;">There is no break assigned and you need to assign one first.</p></marquee>
-  
-  <button th:disabled="${!breakstatus}" onclick="window.location.href='/number/newnumberversion'">New Version Buy new number</button>
+<p th:if="!${breakstatus}" class="warning">
+WARNING!!! There is no break assigned and you need to assign one first.
+</p>
+<h1>Third Eye System</h1>
+<table>
+<tr>
+<th>Function</th>
+<th>Create</th>
+<th>List</th>
+<th></th>
+</tr>
+<tr>
+<td>Break</td>
+<td>
+<button class="indexbutton"
+onclick="window.location.href='/break/new'"
+th:disabled="${breakstatus}"
+>
+New Break
+</button>
+</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/break'"
+>
+List Breaks
+</button>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>Customer</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/customer/new'"
+>
+New Customer
+</button>
+</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/customer'"
+>
+List Customers
+</button>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>Number</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/number/new'"
+>
+New Number
+</button>
+</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/number'"
+>
+List Numbers
+</button>
+</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/number/newnumberversion'"
+>
+New Version Buy New Number
+</button>
+</td>
+</tr>
+<tr>
+<td>Check</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/number/checklucky'"
+>
+Check Lucky Number
+</button>
+</td>
+<td>
+<button class="indexbutton"
+th:disabled="${!breakstatus}"
+onclick="window.location.href='/number/checkavailable'"
+>
+Check Available Balance
+</button>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>Start</td>
+<td><button class="indexbutton" onclick="confirmRestart()">Restart Database</button></td>
+<td><button class="indexbutton" onclick="window.location.href='/'">Home</button></td>
+<td></td>
+</tr>
+</table>
 
-    <h1>Third Eye System</h1>
-<button onclick="window.location.href='/'">Home</button><br><br>
-<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/break'">List Existing Breaks</button><br><br>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/new'">Buy new number</button>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/number'">List Existing Numbers</button><br><br>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer/new'">Register new customer</button>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer'">List Existing customers</button><br><br>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checklucky'">Check Lucky Number</button><br><br>
-<button onclick="confirmRestart()">Restart Database</button><br><br><br><br>
 <p>Current Date and Time: <span th:text="${formattedDateTime}"></span></p>
 
 <script>
-    function confirmRestart() {
-      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-      if (userConfirmed) {
-        window.location.href = '/number/restartdb';
-      }
-    }
+function confirmRestart() {
+const userConfirmed = window.confirm(
+'Are you sure you want to restart the database?'
+)
+if (userConfirmed) {
+window.location.href = '/number/restartdb'
+}
+}
 </script>
-
 </body>
 </html>

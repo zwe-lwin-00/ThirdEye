@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Break Form</title>
+<title>Break Form</title>
+
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Third Eye System</h1>
+<h1>Third Eye System</h1>
 <button onclick="window.location.href='/'">Home</button>
 <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
 <button onclick="window.location.href='/break'">List Existing Breaks</button>
@@ -15,13 +17,25 @@
 <button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
 <button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
 <button onclick="window.location.href='/number/restartdb'">Restart Database</button><br><br>
-    <h1 th:text="${break.breakid != null} ? 'Update Break' : 'Create Break'"></h1>
-    <form th:action="@{${break.breakid != null} ? '/break/' + ${break.breakid} : '/break'}"
-          method="post" th:object="${break}">
-        <label for="breakamount">Break Amount:</label>
-        <input type="number" id="breakamount" th:field="*{breakamount}" required/>
-        
-        <button type="submit" th:text="${break.breakid != null} ? 'Update' : 'Create'"></button>
-    </form>
+<script>
+function confirmRestart() {
+const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+if (userConfirmed) {
+  window.location.href = '/number/restartdb';
+}
+}
+</script>
+<h1 th:if="${break.breakid != null}">Update Break</h1>
+<h1 th:if="${break.breakid == null}">Create Break</h1>
+
+<form class="newforms" th:action="@{${break.breakid != null} ? '/break/' + ${break.breakid} : '/break'}"
+method="post" th:object="${break}">
+<label for="breakamount">Enter Break Amount:</label><br><br>
+<input type="number" id="breakamount" th:field="*{breakamount}" required/><br><br>
+
+<button type="submit" th:if="${break.breakid != null}" th:text="'Update'"></button>
+<button type="submit" th:if="${break.breakid == null}" th:text="'Create'"></button>
+
+</form>
 </body>
 </html>

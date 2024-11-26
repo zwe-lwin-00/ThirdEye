@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Break List</title>
+<title>Break List</title>
+<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Third Eye System</h1>
-    <button onclick="window.location.href='/'">Home</button>
-    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<h1>Third Eye System</h1>
+<button onclick="window.location.href='/'">Home</button>
+<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
 <button onclick="window.location.href='/break'">List Existing Breaks</button>
 <button onclick="window.location.href='/number/new'">Buy new number</button>
 <button onclick="window.location.href='/number'">List Existing Numbers</button>
@@ -16,30 +17,28 @@
 <button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
 <button onclick="confirmRestart()">Restart Database</button>
 <script>
-    function confirmRestart() {
-      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-      if (userConfirmed) {
-        window.location.href = '/number/restartdb';
-      }
-    }
+function confirmRestart() {
+const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+if (userConfirmed) {
+window.location.href = '/number/restartdb';
+}
+}
 </script>
-    <h1>Breaks</h1>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Amount</th>
-            <th>Updated Date</th>
-            <th>Actions</th>
-        </tr>
-        <tr th:each="break : ${breaks}">
-            <td th:text="${break.breakid}"></td>
-            <td th:text="${break.breakamount}"></td>
-            <td th:text="${break.updateddate}"></td>
-            <td>
-                <a th:href="@{/break/{id}(id=${break.breakid})}">Edit</a>
-                <a th:href="@{/break/delete/{id}(id=${break.breakid})}">Delete</a>
-            </td>
-        </tr>
-    </table>
+<h1>Breaks</h1>
+<table border="1" class="listtable">
+<tr>
+<th>Amount</th>
+<th>Updated Date</th>
+<th>Actions</th>
+</tr>
+<tr th:each="break : ${breaks}">
+<td th:text="${break.breakamount}"></td>
+<td th:text="${break.updateddate}"></td>
+<td>
+<a th:href="@{/break/{id}(id=${break.breakid})}">Edit</a>
+<a th:href="@{/break/delete/{id}(id=${break.breakid})}">Delete</a>
+</td>
+</tr>
+</table>
 </body>
 </html>

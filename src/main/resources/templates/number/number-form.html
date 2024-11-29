@@ -1,59 +1,108 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Number Form</title>
-<link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-<h1>Third Eye System</h1>
-<button onclick="window.location.href='/'">Home</button>
-<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button onclick="window.location.href='/break'">List Existing Breaks</button>
-<button onclick="window.location.href='/number/new'">Buy new number</button>
-<button onclick="window.location.href='/number'">List Existing Numbers</button>
-<button onclick="window.location.href='/customer/new'">Register new customer</button>
-<button onclick="window.location.href='/customer'">List Existing customers</button>
-<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
-<button onclick="confirmRestart()">Restart Database</button>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Number Form</title>
+    <style>
+        button {
+          padding: 10px 15px; /* Adjust padding for size */
+          font-size: 12px; /* Increase font size */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          border: 1px solid black;
+          
+        }
+
+        /* Input Field Styles */
+        input[type="number"], select {
+          padding: 8px 12px; /* Adjust padding for input fields and select */
+          font-size: 14px; /* Increase font size */
+          border: 1px solid #ccc; /* Light border color */
+          border-radius: 5px; /* Rounded corners */
+          margin-bottom: 10px; /* Space between fields */
+          width: 100%; /* Full-width for form fields */
+          box-sizing: border-box; /* Include padding in element width */
+        }
+
+        /* Label Styles */
+        label {
+          font-size: 14px; /* Adjust font size */
+          margin-bottom: 5px; /* Space between label and input */
+          display: block; /* Make label a block element */
+        }
+
+        /* Form Container Styles */
+        form {
+          max-width: 500px; /* Limit the form width */
+          margin: 0 auto; /* Center the form */
+          padding: 20px;
+          background-color: #fafafa; /* Light background color */
+          border-radius: 8px; /* Rounded corners */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* General Container Styles */
+        /* body {
+          font-family: Arial, sans-serif;
+        } */
+
+        h1 {
+          font-size: 24px; /* Set font size for headings */
+          text-align: center;
+        }
+
+      </style>
+  </head>
+  <body>
+    <h1>Third Eye System</h1>
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">New Break</button>
+    <button onclick="window.location.href='/break'">List Breaks</button>
+    <button onclick="window.location.href='/number/new'">New Number</button>
+    <button onclick="window.location.href='/number'">List Numbers</button>
+    <button onclick="window.location.href='/customer/new'">New Customer</button>
+    <button onclick="window.location.href='/customer'">List Customers</button>
+    <button onclick="window.location.href='/number/checkavailable'">Check Available</button>
+    <button onclick="window.location.href='/number/checklucky'">Check Lucky</button>
+    <button onclick="confirmRestart()">Restart DB</button><br><br>
 <script>
-function confirmRestart() {
-const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-if (userConfirmed) {
-window.location.href = '/number/restartdb';
-}
-}
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
 </script>
-<h1 th:if="${number.numberid != null}" th:text="'Update Number'"></h1>
-<h1 th:if="${number.numberid == null}" th:text="'Create Number'"></h1>
+    <h1
+      th:text="${number.numberid != null} ? 'Update Number' : 'Create Number'"
+    ></h1>
+    <form
+      th:action="@{${number.numberid != null} ? '/number/' + ${number.numberid} : '/number'}"
+      method="post"
+      th:object="${number}"
+    >
+      <label for="number">Number:</label>
+      <input type="number" id="number" th:field="*{number}" required /><br><br>
 
-<form class="newforms"
-th:action="@{${number.numberid != null} ? '/number/' + ${number.numberid} : '/number'}"
-method="post"
-th:object="${number}"
->
-<label for="number">Number:</label><br><br>
-<input type="number" id="number" th:field="*{number}" required /><br><br>
+      <label for="ownamount">Want to Buy Amount:</label>
+      <input type="number" id="ownamount" th:field="*{ownamount}" required /><br><br>
 
-<label for="ownamount">Want to Buy Amount:</label><br><br>
-<input type="number" id="ownamount" th:field="*{ownamount}" required /><br><br>
+      <!-- Dropdown for selecting a customer -->
+      <label for="customername">Select Customer:</label>
+      <select name="customerid" id="customername" required>
+        <option value="">Select a customer</option>
+        <th:block th:each="customer : ${customers}">
+          <option
+            th:value="${customer.customerid}"
+            th:text="${customer.customername}"
+          ></option>
+        </th:block>
+      </select><br><br>
 
-<!-- Dropdown for selecting a customer -->
-<label for="customername">Select Customer:</label><br><br>
-<select name="customerid" id="customername" required>
-<option value="">Select a customer</option>
-<th:block th:each="customer : ${customers}">
-<option
-th:value="${customer.customerid}"
-th:text="${customer.customername}"
-></option>
-</th:block>
-</select><br><br>
-
-<button type="submit" th:if="${number.numberid != null}" th:text="'Update'"></button>
-<button type="submit" th:if="${number.numberid == null}" th:text="'Create'"></button>
-<button type="reset" th:if="${number.numberid == null}" th:text="'Cancel'"></button>
-
-</form>
-</body>
+      <button
+        type="submit"
+        th:text="${number.numberid != null} ? 'Update' : 'Create'"
+      ></button>
+    </form>
+  </body>
 </html>

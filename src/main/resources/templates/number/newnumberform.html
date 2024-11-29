@@ -1,200 +1,275 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Number Form Result</title>
-<link rel="stylesheet" href="/css/style.css">
+    <title>Buy Multi Numbers</title>
+    <style>
+        button {
+          padding: 10px 15px; /* Adjust padding for size */
+          font-size: 12px; /* Increase font size */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          border: 1px solid black;
+          
+        }
+
+        /* Input Field Styles */
+        input[type="number"] {
+            padding: 8px; /* Padding inside input field */
+            font-size: 14px; /* Font size */
+            border: 1px solid #ccc; /* Light border */
+            border-radius: 5px; /* Rounded corners for input */
+            margin-bottom: 10px; /* Space between input and button */
+        }
+
+        
+
+        table {
+            width: 60%; /* Full width */
+            border-collapse: collapse; /* Remove space between borders */
+            margin: 20px auto; /* Space above the table */
+            
+        }
+
+        th, td {
+            padding: 8px; /* Padding inside table cells */
+            text-align: center; /* Center-align the content */
+            border: 1px solid #ccc; /* Light border around table cells */
+        }
+
+        th {
+            background-color: #f4f4f4; /* Slightly darker background for headers */
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .no-transactions {
+            color: red;
+            text-align: center;
+        }
+
+        .total-row {
+            font-weight: bold; /* Bold text for total rows */
+            background-color: #f9f9f9; /* Light background for total row */
+        }
+
+        
+
+        /* Form Container Styles */
+        .firstform {
+          max-width: 20%; /* Limit the form width */
+          margin: 0 auto; /* Center the form */
+          padding: 20px;
+          background-color: #fafafa; /* Light background color */
+          border-radius: 8px; /* Rounded corners */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* Input Field Styles */
+        input[type="number"], select {
+          padding: 8px 12px; /* Adjust padding for input fields and select */
+          font-size: 14px; /* Increase font size */
+          border: 1px solid #ccc; /* Light border color */
+          border-radius: 5px; /* Rounded corners */
+          margin-bottom: 10px; /* Space between fields */
+          width: 100%; /* Full-width for form fields */
+          box-sizing: border-box; /* Include padding in element width */
+        }
+
+        /* Label Styles */
+        label {
+          font-size: 14px; /* Adjust font size */
+          margin-bottom: 5px; /* Space between label and input */
+          display: block; /* Make label a block element */
+        }
+        
+
+        .secondform {
+          max-width: 100%; /* Limit the form width */
+          margin: 0 auto; /* Center the form */
+          padding: 20px;
+          background-color: #fafafa; /* Light background color */
+          border-radius: 8px; /* Rounded corners */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        select {
+            padding: 8px 12px; /* Adjust padding for input fields and select */
+            font-size: 14px; /* Increase font size */
+            border: 1px solid #ccc; /* Light border color */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 10px; /* Space between fields */
+            width: 20%; /* Set width */
+            box-sizing: border-box; /* Include padding in element width */
+            display: block; /* Ensures the select is treated as a block element */
+            margin-left: auto; /* Automatically adjust left margin */
+            margin-right: auto; /* Automatically adjust right margin */
+    }
+        
+        
+      </style>
 </head>
 <body>
-<h1>Third Eye System</h1>
-<button onclick="window.location.href='/'">Home</button>
-<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button onclick="window.location.href='/break'">List Existing Breaks</button>
-<button onclick="window.location.href='/number/new'">Buy new number</button>
-<button onclick="window.location.href='/number'">List Existing Numbers</button>
-<button onclick="window.location.href='/customer/new'">Register new customer</button>
-<button onclick="window.location.href='/customer'">List Existing customers</button>
-<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
-<button onclick="confirmRestart()">Restart Database</button>
-<script>
-function confirmRestart() {
-const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-if (userConfirmed) {
-window.location.href = '/number/restartdb';
-}
-}
-</script>
-<h2>Permutations and Available Amounts</h2>
+
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">New Break</button>
+    <button onclick="window.location.href='/break'">List Breaks</button>
+    <button onclick="window.location.href='/number/new'">New Number</button>
+    <button onclick="window.location.href='/number'">List Numbers</button>
+    <button onclick="window.location.href='/customer/new'">New Customer</button>
+    <button onclick="window.location.href='/customer'">List Customers</button>
+    <button onclick="window.location.href='/number/checkavailable'">Check Available</button>
+    <button onclick="window.location.href='/number/checklucky'">Check Lucky</button>
+    <button onclick="confirmRestart()">Restart DB</button><br><br>
 
 
 
+    <h2>Buy Multi Numbers</h2>
+    
+    <!-- First Form for Number -->
+    <form action="/number/getallrelatednumbers" method="post" th:object="${number}" id="numberForm" class="firstform">
+        <label for="number">Number:</label>
+        <input type="number" id="number" th:field="*{number}" placeholder="Enter your number" required/><br><br>
+        <button type="submit">Submit</button>
+    </form>
 
 
 
-<script>
-  // Define a condition variable (can be any logic, value, or function)
-  let shouldHide = true; // Set it to true or false to test
+    <h3>Results for Number: <span th:text="${number.number}"></span></h3>
 
-  function checkConditionAndHide() {
-      if (shouldHide) {
-          // Hide all div elements with the class "hideableDiv"
-          const divs = document.querySelectorAll(".hideableDiv");
-          divs.forEach(div => div.style.display = "none");
-      } else {
-          console.log("Condition not met, div will not be hidden.");
-      }
-  }
-</script>
+    <!-- New Form to Submit Table Data -->
+    <form id="permutationForm" class="secondform">
 
-
+      <select name="customerid" id="customername" required>
+        <option value="">Select a customer</option>
+        <th:block th:each="customer : ${customers}">
+          <option
+            th:value="${customer.customerid}"
+            th:text="${customer.customername}"
+          ></option>
+        </th:block>
+      </select><br><br>
 
 
 
-<div class="hideableDiv">
-<!-- First Form for Number -->
-<form class="newforms" action="/number/getallrelatednumbers" method="post" th:object="${number}" id="numberForm">
-<label for="number">Number:</label>
-<input type="number" id="number" th:field="*{number}" placeholder="Enter your number" required/><br><br>
-<button onclick="checkConditionAndHide()" type="submit">Submit</button>
-</form>
-</div>
-
-<hr>
-
-<h3>Results for Number: <span th:text="${number.number}"></span></h3>
-
-<!-- New Form to Submit Table Data -->
-<form id="permutationForm">
-
-<label for="customername">Select Customer:</label><br><br>
-  <select name="customerid" id="customername" required><br><br>
-<option value="">Select a customer</option>
-<th:block th:each="customer : ${customers}">
-  <option
-th:value="${customer.customerid}"
-th:text="${customer.customername}"
-  ></option>
-</th:block>
-  </select><br><br>
+     
 
 
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Remain</th>
+                    <th>Amt</th>
+                    <th>My</th>
+                    <th>Buy</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically populated -->
+                <tr th:each="perm, iterStat : ${permutations}">
+                    <td th:text="${perm}" class="no"></td>
+                    <td th:text="${availableAmounts[iterStat.index]}" class="remain"></td>
+                    <td><input type="number" class="amt" name="amt[${iterStat.index}]" oninput="calculateValues(this)" required></td>
+                    <td><input type="number" class="my" name="my[${iterStat.index}]" readonly></td>
+                    <td><input type="number" class="buy" name="buy[${iterStat.index}]" readonly></td>
+                </tr>
+            </tbody>
+        </table>
 
- 
+        <!-- Submit Button for the Table Data -->
+        <button type="button" onclick="submitTableData()">Submit Data</button>
+    </form>
 
+    
 
-<table border="1">
-<thead>
-<tr>
-<th>No</th>
-<th>Remain</th>
-<th>Amt</th>
-<th>My</th>
-<th>Buy</th>
-</tr>
-</thead>
-<tbody>
-<!-- Table rows will be dynamically populated -->
-<tr th:each="perm, iterStat : ${permutations}">
-<td th:text="${perm}" class="no"></td>
-<td th:text="${availableAmounts[iterStat.index]}" class="remain"></td>
-<td><input type="number" class="amt" name="amt[${iterStat.index}]" oninput="calculateValues(this)" required></td>
-<td><input type="number" class="my" name="my[${iterStat.index}]" readonly></td>
-<td><input type="number" class="buy" name="buy[${iterStat.index}]" readonly></td>
-</tr>
-</tbody>
-</table>
+    <script>
+        // Focus the number input when the page loads
+        window.onload = function() {
+            document.getElementById('number').focus();
+        };
+        
+        // Function to calculate 'My' and 'Buy' based on input 'Amt' and available 'Remain'
+        function calculateValues(input) {
+            const row = input.closest('tr');
+            const remain = parseFloat(row.querySelector('.remain').textContent) || 0;
+            const amt = parseFloat(input.value) || 0;
 
-<!-- Submit Button for the Table Data -->
-<button type="button" onclick="submitTableData()">Submit Data</button>
-</form>
+            let my, buy;
 
-<!-- Home Button -->
-<button onclick="window.location.href='/'">Home</button>
+            if (amt <= remain) {
+                my = amt;
+                buy = 0;
+            } else {
+                my = remain;
+                buy = amt - remain;
+            }
 
-<script>
-// Focus the number input when the page loads
-window.onload = function() {
-document.getElementById('number').focus();
-};
+            // Only display non-zero values
+            row.querySelector('.my').value = my !== 0 ? my : '';
+            row.querySelector('.buy').value = buy !== 0 ? buy : '';
+        }
 
-// Function to calculate 'My' and 'Buy' based on input 'Amt' and available 'Remain'
-function calculateValues(input) {
-const row = input.closest('tr');
-const remain = parseFloat(row.querySelector('.remain').textContent) || 0;
-const amt = parseFloat(input.value) || 0;
+        // Function to submit the table data using the Fetch API (without page reload)
+        function submitTableData() {
+            const form = document.getElementById('permutationForm');
+            
+            // Get the values for 'my', 'buy', 'remain', 'amt', and 'number'
+            const myValues = Array.from(form.querySelectorAll('.my')).map(input => input.value);
+            const buyValues = Array.from(form.querySelectorAll('.buy')).map(input => input.value);
+            const remainValues = Array.from(form.querySelectorAll('.remain')).map(cell => cell.textContent);
+            const amtValues = Array.from(form.querySelectorAll('.amt')).map(input => input.value);
+            const numberValue = Array.from(form.querySelectorAll('.no')).map(cell => cell.textContent);
+            const customerId = document.getElementById('customername').value;
 
-let my, buy;
+            console.log('Number:', numberValue);
+            console.log('Remain Values:', remainValues);
+            console.log('Amount Values:', amtValues);
+            console.log('My Values:', myValues);
+            console.log('Buy Values:', buyValues);
+            console.log('Customer ID:', customerId);
 
-if (amt <= remain) {
-my = amt;
-buy = 0;
-} else {
-my = remain;
-buy = amt - remain;
-}
+            // Ensure all fields have valid values
+        //     if (myValues.includes("") || buyValues.includes("") || amtValues.includes("") || customerId === "") {
+        // alert("Please ensure all fields are filled out, including customer selection!");
+        // return;
 
-// Only display non-zero values
-row.querySelector('.my').value = my !== 0 ? my : '';
-row.querySelector('.buy').value = buy !== 0 ? buy : '';
-}
+        if (customerId === "") {
+        alert("Please ensure all fields are filled out, including customer selection!");
+        return;
+    }
 
-// Function to submit the table data using the Fetch API (without page reload)
-function submitTableData() {
-const form = document.getElementById('permutationForm');
+            // Prepare the data to send
+            const data = {
+                number: numberValue,
+                remain: remainValues,
+                amt: amtValues,
+                my: myValues,
+                buy: buyValues,
+                customerid: customerId
+            };
 
-// Get the values for 'my', 'buy', 'remain', 'amt', and 'number'
-const myValues = Array.from(form.querySelectorAll('.my')).map(input => input.value);
-const buyValues = Array.from(form.querySelectorAll('.buy')).map(input => input.value);
-const remainValues = Array.from(form.querySelectorAll('.remain')).map(cell => cell.textContent);
-const amtValues = Array.from(form.querySelectorAll('.amt')).map(input => input.value);
-const numberValue = Array.from(form.querySelectorAll('.no')).map(cell => cell.textContent);
-const customerId = document.getElementById('customername').value;
-
-console.log('Number:', numberValue);
-console.log('Remain Values:', remainValues);
-console.log('Amount Values:', amtValues);
-console.log('My Values:', myValues);
-console.log('Buy Values:', buyValues);
-console.log('Customer ID:', customerId);
-
-// Ensure all fields have valid values
-// if (myValues.includes("") || buyValues.includes("") || amtValues.includes("") || customerId === "") {
-// alert("Please ensure all fields are filled out, including customer selection!");
-// return;
-
-if (customerId === "") {
-alert("Please ensure all fields are filled out, including customer selection!");
-return;
-}
-
-// Prepare the data to send
-const data = {
-number: numberValue,
-remain: remainValues,
-amt: amtValues,
-my: myValues,
-buy: buyValues,
-customerid: customerId
-};
-
-// Use the Fetch API to send data in the background (without reloading the page)
-fetch('/number/savepermutations', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'  // Specify the content type
-},
-body: JSON.stringify(data)  // Send the data as a JSON string
-})
-.then(response => response.json())
-.then(data => {
-alert('Data submitted successfully');
-console.log(data);  // Log the server response
-})
-.catch(error => {
-alert('Error submitting data');
-console.error(error);  // Log the error
-});
-}
-</script>
+            // Use the Fetch API to send data in the background (without reloading the page)
+            fetch('/number/savepermutations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // Specify the content type
+                },
+                body: JSON.stringify(data)  // Send the data as a JSON string
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Data submitted successfully');
+                console.log(data);  // Log the server response
+            })
+            .catch(error => {
+                alert('Error submitting data');
+                console.error(error);  // Log the error
+            });
+        }
+    </script>
 </body>
 </html>

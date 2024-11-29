@@ -1,108 +1,151 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Lucky Number Transactions</title>
-<link rel="stylesheet" href="/css/style.css">
+    <title>Lucky Number Transactions</title>
+    <style>
+        button {
+          padding: 10px 15px; /* Adjust padding for size */
+          font-size: 12px; /* Increase font size */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          border: 1px solid black;
+          
+        }
+
+
+        table {
+            width: 60%; /* Full width */
+            border-collapse: collapse; /* Remove space between borders */
+            margin: 20px auto; /* Space above the table */
+            
+        }
+
+        th, td {
+            padding: 8px; /* Padding inside table cells */
+            text-align: center; /* Center-align the content */
+            border: 1px solid #ccc; /* Light border around table cells */
+        }
+
+        th {
+            background-color: #f4f4f4; /* Slightly darker background for headers */
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .no-transactions {
+            color: red;
+            text-align: center;
+        }
+
+        .total-row {
+            font-weight: bold; /* Bold text for total rows */
+            background-color: #f9f9f9; /* Light background for total row */
+        }
+      </style>
 </head>
 <body>
-<h1>Third Eye System</h1>
-<button onclick="window.location.href='/'">Home</button>
-<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button onclick="window.location.href='/break'">List Existing Breaks</button>
-<button onclick="window.location.href='/number/new'">Buy new number</button>
-<button onclick="window.location.href='/number'">List Existing Numbers</button>
-<button onclick="window.location.href='/customer/new'">Register new customer</button>
-<button onclick="window.location.href='/customer'">List Existing customers</button>
-<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
-<button onclick="confirmRestart()">Restart Database</button>
+    <h1>Third Eye System</h1>
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">New Break</button>
+    <button onclick="window.location.href='/break'">List Breaks</button>
+    <button onclick="window.location.href='/number/new'">New Number</button>
+    <button onclick="window.location.href='/number'">List Numbers</button>
+    <button onclick="window.location.href='/customer/new'">New Customer</button>
+    <button onclick="window.location.href='/customer'">List Customers</button>
+    <button onclick="window.location.href='/number/checkavailable'">Check Available</button>
+    <button onclick="window.location.href='/number/checklucky'">Check Lucky</button>
+    <button onclick="confirmRestart()">Restart DB</button><br><br>
 <script>
-function confirmRestart() {
-const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-if (userConfirmed) {
-window.location.href = '/number/restartdb';
-}
-}
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
 </script>
 <!-- If no transactions, show a message -->
 <h1 th:if="${#lists.isEmpty(transactions)}" style="color: red;">No transactions found for this lucky number.</h1>
 
-<h1>All Transactions Table</h1>
+    <h1>All Transactions Table</h1>
 
-<table border="1" class="listtable">
-<thead>
-<tr>
-<th>ID</th>
-<th>Number</th>
-<th>Customer</th>
-<th>Amount</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="transaction : ${transactions}">
-<td th:text="${transaction.transactionid}"></td>
-<td th:text="${transaction.buynumber}"></td>
-<td th:text="${transaction.customer.customername}"></td>
-<td th:text="${transaction.amount}"></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>Total</td>
-<td th:text="${totalAmount}"></td>
-</tr>
-</tbody>
-</table>
-<br> <br> <br>
-<h1>All Transactions Group By Customer Table</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Number</th>
+                <th>Customer</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.transactionid}"></td>
+                <td th:text="${transaction.buynumber}"></td>
+                <td th:text="${transaction.customer.customername}"></td>
+                <td th:text="${transaction.amount}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td th:text="${totalAmount}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br> <br> <br>
+    <h1>All Transactions Group By Customer Table</h1>
 
-<table border="1" class="listtable">
-<thead>
-<tr>
-<th>Number</th>
-<th>Customer Name</th>
-<th>Total Amount</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="summary : ${transactionSummaries}">
-<td th:text="${summary.buynumber}"></td>
-<td th:text="${summary.customer.customername}"></td>
-<td th:text="${summary.totalAmount}"></td>
-</tr>
-<tr>
-<td></td>
-<td>Total</td>
-<td th:text="${totalAmount}"></td>
-</tr>
-</tbody>
-</table>
-<br> <br> <br>
-<h1>Buy Amount and Own Amount</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Customer Name</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="summary : ${transactionSummaries}">
+                <td th:text="${summary.buynumber}"></td>
+                <td th:text="${summary.customer.customername}"></td>
+                <td th:text="${summary.totalAmount}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Total</td>
+                <td th:text="${totalAmount}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br> <br> <br>
+    <h1>Buy Amount and Own Amount</h1>
 
-<table border="1" class="listtable">
-<thead>
-<tr>
-<th>Number</th>
-<th>Buy Amount</th>
-<th>Own Amount</th>
-</tr>
-</thead>
-<tbody>
-<tr th:each="number : ${numbers}">
-<td th:text="${number.number}"></td>
-<td th:text="${number.buyamount}"></td>
-<td th:text="${number.ownamount}"></td>
-</tr>
-</tbody>
-</table>
-
-
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Buy Amount</th>
+                <th>Own Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="number : ${numbers}">
+                <td th:text="${number.number}"></td>
+                <td th:text="${number.buyamount}"></td>
+                <td th:text="${number.ownamount}"></td>
+            </tr>
+        </tbody>
+    </table>
 
 
 
 
+    
 
+    
 
 </body>
 </html>

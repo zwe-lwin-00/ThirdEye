@@ -1,129 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Welcome from Home</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="/css/style.css" rel="stylesheet" />
+    <title>Welcome from Home</title>
+    <style>
+      button {
+        padding: 15px 20px; /* Adjust padding for size */
+        font-size: 16px; /* Increase font size */
+        border: none; /* No border */
+        border-radius: 10px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+        border: 1px solid black;
+        
+      }
+    </style>
+    <style>
+      table {
+        width: 50%;
+        border-collapse: collapse; /* Optional: makes the borders collapse */
+        margin: 20px auto;
+      }
+      td, th {
+        border: 1px solid white;
+        /* padding: 10px; */
+        text-align: left; /* Aligns the content of the table cells to the right */
+      }
+    </style>
 </head>
 <body>
-<p th:if="!${breakstatus}" class="warning">
-WARNING!!! There is no break assigned and you need to assign one first.
-</p>
-<h1>Third Eye System</h1>
-<table>
-<tr>
-<th>Function</th>
-<th>Create</th>
-<th>List</th>
-<th></th>
-</tr>
-<tr>
-<td>Break</td>
-<td>
-<button class="indexbutton"
-onclick="window.location.href='/break/new'"
-th:disabled="${breakstatus}"
->
-New Break
-</button>
-</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/break'"
->
-List Breaks
-</button>
-</td>
-<td></td>
-</tr>
-<tr>
-<td>Customer</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/customer/new'"
->
-New Customer
-</button>
-</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/customer'"
->
-List Customers
-</button>
-</td>
-<td></td>
-</tr>
-<tr>
-<td>Number</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/number/new'"
->
-New Number
-</button>
-</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/number'"
->
-List Numbers
-</button>
-</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/number/newnumberversion'"
->
-New Version Buy New Number
-</button>
-</td>
-</tr>
-<tr>
-<td>Check</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/number/checklucky'"
->
-Check Lucky Number
-</button>
-</td>
-<td>
-<button class="indexbutton"
-th:disabled="${!breakstatus}"
-onclick="window.location.href='/number/checkavailable'"
->
-Check Available Balance
-</button>
-</td>
-<td></td>
-</tr>
-<tr>
-<td>Start</td>
-<td><button class="indexbutton" onclick="confirmRestart()">Restart Database</button></td>
-<td><button class="indexbutton" onclick="window.location.href='/'">Home</button></td>
-<td></td>
-</tr>
-</table>
+  <marquee><p th:if="!${breakstatus}" style="color:red;">There is no break assigned and you need to assign one first.</p></marquee>
 
-<p>Current Date and Time: <span th:text="${formattedDateTime}"></span></p>
+
+    <!-- <h1>Third Eye System</h1> -->
+
+
+    <table>
+      <tr>
+          <th><h1>Service</h1></th>
+          <th><h1>Create</h1></th>
+          <th><h1>List</h1></th>
+      </tr>
+      <tr>
+          <th><h1>Break</h1></th>
+          <th><button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/break'">List Existing Breaks</button></th>
+      </tr>
+      <tr>
+          <th><h1>Customer</h1></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/customer/new'">Register new customer</button></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/customer'">List Existing customers</button></th>
+      </tr>
+      <tr>
+          <th><h1>Number</h1></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/new'">Buy new number</button></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number'">List Existing Numbers</button></th>
+      </tr>
+      <tr>
+          <th><h1>Check</h1></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checkavailable'">Check Available Balance</button></th>
+          <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checklucky'">Check Lucky Number</button></th>
+      </tr>
+      <tr>
+          <th><h1>Common</h1></th>
+          <th><button onclick="confirmRestart()">Restart Database</button></th>
+          <th>  <button th:disabled="${!breakstatus}" onclick="window.location.href='/number/newnumberversion'">New Version Buy new number</button></th>
+      </tr>
+    </table>
+    <p>Current Date and Time: <span th:text="${formattedDateTime}"></span></p>
+
+<!-- <button onclick="window.location.href='/'">Home</button><br><br>
+<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/break'">List Existing Breaks</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/new'">Buy new number</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number'">List Existing Numbers</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer/new'">Register new customer</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/customer'">List Existing customers</button><br><br>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
+<button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checklucky'">Check Lucky Number</button><br><br>
+<button onclick="confirmRestart()">Restart Database</button><br><br><br><br> -->
+
+
+
+
+
+
+
+
+
+
 
 <script>
-function confirmRestart() {
-const userConfirmed = window.confirm(
-'Are you sure you want to restart the database?'
-)
-if (userConfirmed) {
-window.location.href = '/number/restartdb'
-}
-}
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
 </script>
+
 </body>
 </html>

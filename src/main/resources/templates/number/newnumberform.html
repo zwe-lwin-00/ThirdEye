@@ -138,10 +138,10 @@
 
 
 
-    <h3>Results for Number: <span th:text="${number.number}"></span></h3>
+    <h3  th:if="${number.number != 0 and number.number != null}">Results for Number: <span th:text="${number.number}"></span></h3>
 
     <!-- New Form to Submit Table Data -->
-    <form id="permutationForm" class="secondform">
+    <form id="permutationForm" class="secondform" th:if="${number.number != 0 and number.number != null}">
 
       <select name="customerid" id="customername" required>
         <option value="">Select a customer</option>

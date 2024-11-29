@@ -1,43 +1,86 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Customer Form</title>
-<link rel="stylesheet" href="/css/style.css">
+    <title>Customer Form</title>
+    <style>
+        button {
+          padding: 10px 15px; /* Adjust padding for size */
+          font-size: 12px; /* Increase font size */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          border: 1px solid black;
+          
+        }
+
+        /* Input and Label Styling */
+        label {
+            font-size: 14px; /* Slightly larger label text */
+            margin-bottom: 5px; /* Space below label */
+            display: block; /* Make labels block elements for alignment */
+        }
+
+        input {
+            padding: 10px; /* Padding inside the input fields */
+            font-size: 14px; /* Increase input font size */
+            border-radius: 5px; /* Rounded corners */
+            border: 1px solid #ddd; /* Light border */
+            width: 100%; /* Full width input */
+            margin-bottom: 15px; /* Space below the input */
+        }
+
+        /* Form Styles */
+        form {
+            max-width: 500px; /* Max width for the form */
+            margin: 0 auto; /* Center the form on the page */
+            padding: 20px; /* Add padding inside the form */
+            background-color: #f9f9f9; /* Light background color for form */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        /* General Layout Styles */
+        body {
+            /* font-family: Arial, sans-serif;  */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 24px; /* Set font size for headings */
+            text-align: center; /* Center the heading */
+        }
+
+      </style>
 </head>
 <body>
-<h1>Third Eye System</h1>
-<button onclick="window.location.href='/'">Home</button>
-<button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button>
-<button onclick="window.location.href='/break'">List Existing Breaks</button>
-<button onclick="window.location.href='/number/new'">Buy new number</button>
-<button onclick="window.location.href='/number'">List Existing Numbers</button>
-<button onclick="window.location.href='/customer/new'">Register new customer</button>
-<button onclick="window.location.href='/customer'">List Existing customers</button>
-<button onclick="window.location.href='/number/checkavailable'">Check Available Balance</button>
-<button onclick="window.location.href='/number/checklucky'">Check Lucky Number</button>
-<button onclick="confirmRestart()">Restart Database</button>
+    <h1>Third Eye System</h1>
+    <button onclick="window.location.href='/'">Home</button>
+    <button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">New Break</button>
+    <button onclick="window.location.href='/break'">List Breaks</button>
+    <button onclick="window.location.href='/number/new'">New Number</button>
+    <button onclick="window.location.href='/number'">List Numbers</button>
+    <button onclick="window.location.href='/customer/new'">New Customer</button>
+    <button onclick="window.location.href='/customer'">List Customers</button>
+    <button onclick="window.location.href='/number/checkavailable'">Check Available</button>
+    <button onclick="window.location.href='/number/checklucky'">Check Lucky</button>
+    <button onclick="confirmRestart()">Restart DB</button><br><br>
 <script>
-function confirmRestart() {
-const userConfirmed = window.confirm("Are you sure you want to restart the database?");
-if (userConfirmed) {
-window.location.href = '/number/restartdb';
-}
-}
+    function confirmRestart() {
+      const userConfirmed = window.confirm("Are you sure you want to restart the database?");
+      if (userConfirmed) {
+        window.location.href = '/number/restartdb';
+      }
+    }
 </script>
-<h1 th:if="${customer.customerid != null}" th:text="'Update Customer'"></h1>
-<h1 th:if="${customer.customerid == null}" th:text="'Create Customer'"></h1>
-
-<form class="newforms" th:action="@{${customer.customerid != null} ? '/customer/' + ${customer.customerid} : '/customer'}"
-method="post" th:object="${customer}">
-<label for="customername">Customer Name:</label><br><br>
-<input type="text" id="customername" th:field="*{customername}" required/><br><br>
-
-
-<button type="submit" th:if="${customer.customerid != null}" th:text="'Update'"></button>
-<button type="submit" th:if="${customer.customerid == null}" th:text="'Create'"></button>
-
-
-</form>
-
+    <h1 th:text="${customer.customerid != null} ? 'Update Customer' : 'Create Customer'"></h1>
+    <form th:action="@{${customer.customerid != null} ? '/customer/' + ${customer.customerid} : '/customer'}"
+          method="post" th:object="${customer}">
+        <label for="customername">Customer Name:</label>
+        <input type="text" id="customername" th:field="*{customername}" required/>
+        
+        <button type="submit" th:text="${customer.customerid != null} ? 'Update' : 'Create'"></button>
+    </form>
+    
 </body>
 </html>

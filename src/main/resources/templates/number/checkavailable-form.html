@@ -14,7 +14,7 @@
         }
 
         /* Input Field Styles */
-        input[type="number"] {
+        input[type="text"] {
             padding: 8px; /* Padding inside input field */
             font-size: 14px; /* Font size */
             border: 1px solid #ccc; /* Light border */
@@ -74,7 +74,7 @@
     <h1>Check Available Amount of Number</h1>
     <form th:action="@{/number/checkavailable}" method="post" th:object="${Number}">
         <label for="number">Number:</label>
-        <input type="number" id="number" th:field="*{number}" required/>
+        <input type="text" id="number" th:field="*{number}" required/>
 
         <button type="submit">Check</button>
     </form>

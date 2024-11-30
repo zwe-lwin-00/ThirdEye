@@ -3,15 +3,18 @@
 <head>
     <title>Welcome from Home</title>
     <style>
+      
+
       button {
-        padding: 15px 20px; /* Adjust padding for size */
-        font-size: 16px; /* Increase font size */
-        border: none; /* No border */
-        border-radius: 10px; /* Rounded corners */
-        cursor: pointer; /* Pointer cursor on hover */
-        border: 1px solid black;
-        
-      }
+          padding: 10px 15px; /* Adjust padding for size */
+          font-size: 12px; /* Increase font size */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          border: 1px solid black;
+          
+        }
+
     </style>
     <style>
       table {
@@ -35,32 +38,32 @@
 
     <table>
       <tr>
-          <th><h1>Service</h1></th>
-          <th><h1>Create</h1></th>
-          <th><h1>List</h1></th>
+          <th><h4>Service</h4></th>
+          <th><h4>Create</h4></th>
+          <th><h4>List</h4></th>
       </tr>
       <tr>
-          <th><h1>Break</h1></th>
+          <th><h4>Break</h4></th>
           <th><button onclick="window.location.href='/break/new'" th:disabled="${breakstatus}">Create New Break</button></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/break'">List Existing Breaks</button></th>
       </tr>
       <tr>
-          <th><h1>Customer</h1></th>
+          <th><h4>Customer</h4></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/customer/new'">Register new customer</button></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/customer'">List Existing customers</button></th>
       </tr>
       <tr>
-          <th><h1>Number</h1></th>
+          <th><h4>Number</h4></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/new'">Buy new number</button></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number'">List Existing Numbers</button></th>
       </tr>
       <tr>
-          <th><h1>Check</h1></th>
+          <th><h4>Check</h4></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checkavailable'">Check Available Balance</button></th>
           <th><button th:disabled="${!breakstatus}" onclick="window.location.href='/number/checklucky'">Check Lucky Number</button></th>
       </tr>
       <tr>
-          <th><h1>Common</h1></th>
+          <th><h4>Common</h4></th>
           <th><button onclick="confirmRestart()">Restart Database</button></th>
           <th>  <button th:disabled="${!breakstatus}" onclick="window.location.href='/number/newnumberversion'">New Version Buy new number</button></th>
       </tr>
